@@ -1,1 +1,1 @@
-Virtual Assistant
+A.I.D.A, Artificial Intelligence Digital Assistant.
