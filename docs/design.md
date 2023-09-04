@@ -2,7 +2,7 @@
 - Hoang Nguyen: Everything
 - Xiang Liu: [A.I Dev](#team-roles)
 - Robert Liam Miller: [AAER Dev, Frontend Dev](#team-roles)
-- Zachary Whitaker: Role
+- Zachary Whitaker: [AAER dev, Backend dev](#team-roles)
 
 Project Link: https://github.com/HoangNguyen55/A.I.D.A
 
@@ -69,7 +69,7 @@ Communication tools: Discord
 ## Schedule
 
 ### A.I Dev:
-- September 6th - September 13rd: Deploy the A.I (Chat with it like a chat bot via text)
+- September 5th - September 13rd: Deploy the A.I (Chat with it like a chat bot via text)
 - September 13rd - 27th: Collect Data
 - September 27th: Train the A.I (Give desireable output)
 
@@ -86,11 +86,15 @@ Communication tools: Discord
 - XXX: See statistic of server usage
 
 ### AAER
-- September 6th - 27th: Create the `search` API
+- September 5th - 27th: Create the `search` API
+
+### Basic core
+soft deadline: September 10th
 
 Final Deadline: November 12th
 
 ## Risks
+Wait till basic core is complete
 
 ## External Feedback
 External feedback would be needed after the AI is up and running, we can ask friends and family.
