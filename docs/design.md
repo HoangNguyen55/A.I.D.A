@@ -1,5 +1,5 @@
 # The team
-- Hoang Nguyen: Everything
+- Hoang Nguyen: [Everything](#team-roles)
 - Xiang Liu: [A.I Dev](#team-roles)
 - Robert Liam Miller: [AAER Dev, Frontend Dev](#team-roles)
 - Zachary Whitaker: [AAER dev, Backend dev](#team-roles)
@@ -65,6 +65,8 @@ Communication tools: Discord
 - Frontend developer for admin page (Frontend Dev)
 - API for AI to access external resources developer (AAER Dev)
     - Create applications for the AI to access the World Wide Web
+- CI/CDer
+    - set up ci/cd
 
 ## Schedule
 
@@ -89,8 +91,9 @@ Communication tools: Discord
 - September 5th - 27th: Create the `search` API
 
 ### Basic core
-soft deadline: September 10th
+Soft deadline: September 10th
 
+### Core
 Final Deadline: November 12th
 
 ## Risks
