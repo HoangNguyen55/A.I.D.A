@@ -49,4 +49,8 @@ SQL database
 
 Store user login details
 
+# CI/CD
+uses Jenkins
+
 # Admin Webpage
+to be do later
