@@ -1,0 +1,12 @@
+Usage: search [OPTIONS] input...
+
+Options:
+    -e, --engine ENGINE
+        Choose which search engine to search with, the available engines are:
+            google: search using https://www.google.com
+            youtube: search using https://www.youtube.com
+        
+    -o, --output-format
+        Which format should be returns, the available output formats are:
+            url: the output will be the first url given by the search engine, i.e: https://example.com
+            html: the output will be the full html document of the first url given by the search engine, i.e: <!DOCTYPE html> <body>...<\body>
