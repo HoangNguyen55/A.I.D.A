@@ -29,9 +29,41 @@ Communication tools: Discord
 ## Functional (Use Cases)
 
 1. Search on google
+    1) Users
+    2) Voice Command
+    3) "What is ..."
+    4) "According to `website` this blah blah blah"
+    5) Steps:
+        - Feed input to AI
+        - Output: `search google html "what is this thing"`
+        - `search` returns info
+        - AI 
+    6) Extensions/variations of the success scenario
+    7) Exceptions: failure conditions and scenarios
 1. Answer general questions
+    1) Users
+    2) Voice Command
+    3) "What is ..."
+    4) "that is blah blah blah" (success scenario)
+    5) List of steps (success scenario)
+    6) Extensions/variations of the success scenario
+    7) Exceptions: failure conditions and scenarios
 1. Playing music
+    1) Users
+    2) Voice Command
+    3) Preconditions
+    4) Postconditions (success scenario)
+    5) List of steps (success scenario)
+    6) Extensions/variations of the success scenario
+    7) Exceptions: failure conditions and scenarios
 1. Date reminder
+    1) Users
+    2) Voice Command
+    3) Preconditions
+    4) Postconditions (success scenario)
+    5) List of steps (success scenario)
+    6) Extensions/variations of the success scenario
+    7) Exceptions: failure conditions and scenarios
 
 ## Non-Functional
 
