@@ -32,7 +32,6 @@ Communication tools: Discord
 1. Answer general questions
 1. Playing music
 1. Date reminder
-1. Hand-free command
 
 ## Non-Functional
 
