@@ -1,4 +1,4 @@
-# Free and open-source Virtual Assistant ( *title tbd* )
+# Free and open-source Virtual Assistant, A.I.D.A
 ## Idea
 AI assistant that can help with daily tasks, i.e. play music, answer general questions, etc...
 
