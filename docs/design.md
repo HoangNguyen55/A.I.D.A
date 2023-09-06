@@ -2,7 +2,7 @@
 - Hoang Nguyen: [Everything](#team-roles)
 - Xiang Liu: [A.I Dev](#team-roles)
 - Robert Liam Miller: [AAER Dev, Frontend Dev](#team-roles)
-- Zachary Whitaker: [AAER dev, Backend dev](#team-roles)
+- Zachary Whitaker: [Everything](#team-roles)
 
 Project Link: https://github.com/HoangNguyen55/A.I.D.A
 
