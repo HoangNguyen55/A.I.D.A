@@ -67,9 +67,16 @@ Communication tools: Discord
 
 ## Non-Functional
 
-1. Design for 1-4 users per instance
-1. Easily run on Google collab/locally
-1. Encryption of user credentials/data
+1. Scalability: 
+    1) seperate AI memories for different users, so multiple user can use at the same time
+    1) new user can sign up to an instance
+    1) add more gpus to generate outputs faster
+1. Usability:
+    1) python Jupyer notebooks to easily run on google collab
+    1) install scripts/container to run locally
+1. Security:
+    1) Encryption of user credentials/data
+    1) communicate via TLS
 
 # External Requirements
 - [ ] Provide a way to easily install and run it
@@ -128,7 +135,7 @@ Soft deadline: September 10th
 Final Deadline: November 12th
 
 ## Risks
-Wait till basic core is complete
+1. The team don't have enough time to learn new technology
 
 ## External Feedback
 External feedback would be needed after the AI is up and running, we can ask friends and family.
