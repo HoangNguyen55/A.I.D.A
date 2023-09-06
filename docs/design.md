@@ -37,9 +37,9 @@ Communication tools: Discord
         - Feed input to AI
         - Output: `search google html "what is this thing"`
         - `search` returns info
-        - AI 
-    6) Extensions/variations of the success scenario
-    7) Exceptions: failure conditions and scenarios
+        - AI summerize the return html documents and read it to user
+    6) "`website` said blah blah", "blah blah is what `website` said", etc...
+    7) Exceptions: no internet connection so can't google questions, something break
 1. Answer general questions
     1) Users
     2) Voice Command
