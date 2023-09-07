@@ -44,10 +44,13 @@ Communication tools: Discord
     1) Users
     2) Voice Command
     3) "What is ..."
-    4) "that is blah blah blah" (success scenario)
-    5) List of steps (success scenario)
-    6) Extensions/variations of the success scenario
-    7) Exceptions: failure conditions and scenarios
+    4) "The answer is..."
+    5) Steps:
+       - Input is fed to AI
+       - Output is sent to Google
+       - AI reads first result
+    7) Google may supply an infobox or a clip of a video, it would read the infobox instead or play the video
+    8) Exceptions: No internet connection, or no results
 1. Playing music
     1) Users
     2) Voice Command
