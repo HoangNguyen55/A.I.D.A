@@ -47,10 +47,9 @@ Communication tools: Discord
     4) "The answer is..."
     5) Steps:
        - Input is fed to AI
-       - Output is sent to Google
-       - AI reads first result
-    7) Google may supply an infobox or a clip of a video, it would read the infobox instead or play the video
-    8) Exceptions: No internet connection, or no results
+       - It responses with answers
+    7) "This thing is...", "it is...", etc...
+    8) Exceptions: give the wrong information, or it dont know.
 1. Playing music
     1) Users
     2) Voice Command
@@ -95,6 +94,9 @@ Communication tools: Discord
 - Typescript
     - Just a better javascript
     - Can use frameworks to easily build a webpage
+- Rust
+    - Easily compiles to different OSes
+    - Compiles to an executable which is what AIDA will use to interface with the outside world
 
 ## Team Roles
 - A.I developer (A.I Dev)
