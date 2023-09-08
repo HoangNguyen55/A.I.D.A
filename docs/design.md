@@ -49,7 +49,7 @@ Communication tools: Discord
        - Input is fed to AI
        - It responses with answers
     7) "This thing is...", "it is...", etc...
-    8) Exceptions: give the wrong information, or it dont know.
+    8) Exceptions: give the wrong information, or it doesn't know.
 1. Playing music
     1) Users
     2) Voice Command
@@ -134,7 +134,7 @@ Communication tools: Discord
 ### Frontend Dev:
 - September 13rd - 20th: Interface with the A.I
 
-- XXX: Accept User Sigh up
+- XXX: Accept User Sign up
 - XXX: Button to export the data in the database to csv or something
 - XXX: See health of the A.I (optional)
 - XXX: See statistic of server usage
