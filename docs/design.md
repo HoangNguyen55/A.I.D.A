@@ -51,19 +51,28 @@ Communication tools: Discord
 1. Playing music
     1) Users
     2) Voice Command
-    3) Preconditions
-    4) Postconditions (success scenario)
-    5) List of steps (success scenario)
+    3) "Play this xxx song" or "play this xxxxx artist"
+    4) AI will output a URL from Youtube from user input
+    5) Steps: 
+        - Feed input to AI
+        - Output:URL -"Here is the result from YouTube Music"
+        - AI will automatically play the URL from YouTube Music
     6) Extensions/variations of the success scenario
+    - Show lyrics for the song
     7) Exceptions: failure conditions and scenarios
+    -If the song, album, or the artist is not on YouTube Music
 1. Date reminder
     1) Users
     2) Voice Command
-    3) Preconditions
-    4) Postconditions (success scenario)
-    5) List of steps (success scenario)
+    3) "Hey A.I.D.A remind me to xxxx event on xx date and xx:xx time"
+    4) A.I.D.A API will sent the date reminder to Google - API and A.I.D.A will sent to local device calendar to remind the event
+    5) Steps:
+    - Feed input to AI
+    - Output will be local device's reminder for date event
     6) Extensions/variations of the success scenario
+    - Show the location for the date of the event
     7) Exceptions: failure conditions and scenarios
+    - Reminder Date and Time that have been past
 
 ## Non-Functional
 
