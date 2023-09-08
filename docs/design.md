@@ -29,19 +29,18 @@ Communication tools: Discord
 ## Functional (Use Cases)
 
 1. Search on google
-    1) Users
+    1) Person
     2) Voice Command
     3) "What is ..."
     4) "According to `website` this blah blah blah"
     5) Steps:
         - Feed input to AI
-        - Output: `search google html "what is this thing"`
-        - `search` returns info
-        - AI summerize the return html documents and read it to user
+        - AI uses api to ask google the question
+        - AI summerize what google gives and read it to user
     6) "`website` said blah blah", "blah blah is what `website` said", etc...
     7) Exceptions: no internet connection so can't google questions, something break
 1. Answer general questions
-    1) Users
+    1) Person
     2) Voice Command
     3) "What is ..."
     4) "The answer is..."
@@ -51,30 +50,27 @@ Communication tools: Discord
     7) "This thing is...", "it is...", etc...
     8) Exceptions: give the wrong information, or it doesn't know.
 1. Playing music
-    1) Users
+    1) Person
     2) Voice Command
     3) "Play this xxx song" or "play this xxxxx artist"
-    4) AI will output a URL from Youtube from user input
+    4) Music plays
     5) Steps: 
         - Feed input to AI
-        - Output:URL -"Here is the result from YouTube Music"
-        - AI will automatically play the URL from YouTube Music
-    6) Extensions/variations of the success scenario
-    - Show lyrics for the song
-    7) Exceptions: failure conditions and scenarios
-    -If the song, album, or the artist is not on YouTube Music
+        - AI returns a URL
+        - client will automatically open the URL
+    6) youtube music url, spotify url, etc...
+    7) If the song, album, or the artist can not be found
 1. Date reminder
-    1) Users
+    1) Person
     2) Voice Command
     3) "Hey A.I.D.A remind me to xxxx event on xx date and xx:xx time"
-    4) A.I.D.A API will sent the date reminder to Google - API and A.I.D.A will sent to local device calendar to remind the event
+    4) A.I.D.A API will sent the date reminder to Google
     5) Steps:
     - Feed input to AI
-    - Output will be local device's reminder for date event
-    6) Extensions/variations of the success scenario
-    - Show the location for the date of the event
-    7) Exceptions: failure conditions and scenarios
-    - Reminder Date and Time that have been past
+    - AIDA calls api to calendar apps to make a reminder
+    6) make api call to microsoft calender, etc...
+    7) Reminder Date and Time that have been past
+
 
 ## Non-Functional
 
