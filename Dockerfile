@@ -2,7 +2,7 @@
 FROM debian:12
 COPY . /app
 WORKDIR /app
-RUN apt apt update
+RUN apt update
 RUN apt install -y python3
 RUN pip install -r requirements.txt
 RUN rm -r -f $HOME/.cache
