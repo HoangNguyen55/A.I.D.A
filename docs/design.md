@@ -3,7 +3,7 @@
 - Xiang Liu: [A.I Dev](#team-roles)
 - Robert Liam Miller: [AAER Dev, Frontend Dev](#team-roles)
 - Zachary Whitaker: [Everything](#team-roles)
-- Mikheil Uglava: TBD
+- Mikheil Uglava: [Frontend Dev](#team-roles)
 
 Project Link: https://github.com/HoangNguyen55/A.I.D.A
 
