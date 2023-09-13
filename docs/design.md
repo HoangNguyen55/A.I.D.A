@@ -12,6 +12,8 @@ Communication tools: Discord
 # Product Description
 
 ## Major Features
+A lovely artificial intelligence thats help you in your daily life.
+
 - [ ] AI recieves input and outputs an appropriate responses
     - [ ] Customizable AI behavior with a config file
 - [ ] Server with REST APIs implemented
@@ -30,31 +32,38 @@ Communication tools: Discord
 ## Functional (Use Cases)
 
 1. Search on google
-    1) Person
-    2) Voice Command
-    3) "What is ..."
-    4) "According to `website` this blah blah blah"
-    5) Steps:
+    1) Actors: Person
+    2) Triggers: Voice Command
+    3) Preconditions: "What is ..."
+    4) Postconditions (success scenario): 
+        - "According to `website` this blah blah blah"
+    5) List of steps (success scenario):
         - Feed input to AI
         - AI uses api to ask google the question
         - AI summerize what google gives and read it to user
-    6) "`website` said blah blah", "blah blah is what `website` said", etc...
-    7) Exceptions: no internet connection so can't google questions, something break
+    6) Extensions/variations of the success scenario: 
+        - "`website` said blah blah", "blah blah is what `website` said", etc...
+    7) Exceptions: failure conditions and scenarios:
+        - no internet connection so can't google questions, something break
 1. Answer general questions
-    1) Person
-    2) Voice Command
-    3) "What is ..."
-    4) "The answer is..."
-    5) Steps:
-       - Input is fed to AI
-       - It responses with answers
-    7) "This thing is...", "it is...", etc...
-    8) Exceptions: give the wrong information, or it doesn't know.
+    1) Actors: Person
+    2) Triggers: Voice Command
+    3) Preconditions: "What is ..."
+    4) Postconditions (success scenario): 
+        - "The answer is..."
+    5) List of steps (success scenario):
+        - Input is fed to AI
+        - It responses with answers
+    6) Extensions/variations of the success scenario: 
+        - "This thing is...", "it is...", etc...
+    7) Exceptions: failure conditions and scenarios:
+        - give the wrong information, or it doesn't know.
 1. Playing music
-    1) Person
-    2) Voice Command
-    3) "Play this xxx song" or "play this xxxxx artist"
-    4) Music plays
+    1) Actors: Person
+    2) Triggers: Voice Command
+    3) Preconditions: "Play this xxx song" or "play this xxxxx artist"
+    4) Postconditions (success scenario): 
+        - Music plays
     5) Steps: 
         - Feed input to AI
         - AI returns a URL
@@ -62,15 +71,18 @@ Communication tools: Discord
     6) youtube music url, spotify url, etc...
     7) If the song, album, or the artist can not be found
 1. Date reminder
-    1) Person
-    2) Voice Command
-    3) "Hey A.I.D.A remind me to xxxx event on xx date and xx:xx time"
-    4) A.I.D.A API will sent the date reminder to Google
-    5) Steps:
-    - Feed input to AI
-    - AIDA calls api to calendar apps to make a reminder
-    6) make api call to microsoft calender, etc...
-    7) Reminder Date and Time that have been past
+    1) Actors: Person
+    2) Triggers: Voice Command
+    3) Preconditions: "Hey A.I.D.A remind me to xxxx event on xx date and xx:xx time"
+    4) Postconditions (success scenario): 
+        - A.I.D.A API will sent the date reminder to Google
+    5) List of steps (success scenario):
+        - Feed input to AI
+        - AIDA calls api to calendar apps to make a reminder
+    6) Extensions/variations of the success scenario: 
+        - make api call to microsoft calender, etc...
+    7) Exceptions: failure conditions and scenarios:
+        - Reminder Date and Time that have been past
 
 
 ## Non-Functional
@@ -96,10 +108,8 @@ Communication tools: Discord
 ## Programing Languages
 - Python 
     - Can use the Hugging Face's Transformer library to easily deploy AI models
+    - Django as a framework for the admin web page
     - Can be use as backend for servers
-- Typescript
-    - Just a better javascript
-    - Can use frameworks to easily build a webpage
 - Rust
     - Easily compiles to different OSes
     - Compiles to an executable which is what AIDA will use to interface with the outside world
