@@ -16,7 +16,7 @@ A lovely artificial intelligence thats help you in your daily life.
 
 - [ ] AI recieves input and outputs an appropriate responses
     - [ ] Customizable AI behavior with a config file
-- [ ] Server with REST APIs implemented
+- [ ] Server with that communicate with client via websocket
     - [ ] A webpage to manage everything
 - [ ] Have text to speech read AI responses
 - [ ] Run in containers
@@ -30,6 +30,30 @@ A lovely artificial intelligence thats help you in your daily life.
 # Requirements
 
 ## Functional (Use Cases)
+<!-- Template -->
+<!-- 1. TASK -->
+<!--     1) Actors:  -->
+<!--     2) Triggers:  -->
+<!--     3) Preconditions:  -->
+<!--     4) Postconditions (success scenario):  -->
+<!--     5) List of steps (success scenario): -->
+<!--     6) Extensions/variations of the success scenario:  -->
+<!--     7) Exceptions: failure conditions and scenarios: -->
+
+1. AI connects to the outside world
+    1) Actors: AIDA
+    2) Triggers: Text input
+    3) Preconditions: valid `keywords` wrap in a `|CMD|...|CMD|` block
+    4) Postconditions (success scenario): 
+        - connect to external site and returns the appropriate responses
+    5) List of steps (success scenario):
+        - a shell will run `keyword` command
+        - `keyword` returns a response
+        - AI recieves `keyword` responses
+    6) Extensions/variations of the success scenario: 
+        - run some internal app that doesn't necessarily connects to the outside world
+    7) Exceptions: failure conditions and scenarios:
+        - keyword didn't exist, returns error
 
 1. Search on google
     1) Actors: Person
@@ -148,9 +172,6 @@ A lovely artificial intelligence thats help you in your daily life.
 
 ### AAER
 - September 5th - 27th: Create the `search` API
-
-### Basic core
-Soft deadline: September 10th
 
 ### Core
 Final Deadline: November 12th
