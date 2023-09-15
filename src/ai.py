@@ -1,25 +1,20 @@
-from transformers import AutoTokenizer
+from transformers import AutoModelForCasualLM
 import transformers
-import torch
 
-model = "/Llama-2-7b-chat-hf"
+SYSTEM_PROMPT = ""
+PROMPT = ""
 
-tokenizer = AutoTokenizer.from_pretrained(model)
-pipeline = transformers.pipeline(
-    "text-generation",
-    model=model,
-    torch_dtype=torch.float16,
-    device_map="auto",
+model_path = "/model"
+
+config = transformers.AutoConfig.from_pretrained(
+    model_path,
+    rope_scaling={}
 )
 
-sequences = pipeline(
-    'I liked "Breaking Bad" and "Band of Brothers". Do you have any recommendations of other shows I might like?\n',
-    do_sample=True,
-    top_k=10,
-    num_return_sequences=1,
-    eos_token_id=tokenizer.eos_token_id,
-    max_length=200,
-)
-for seq in sequences:
-    print(f"Result: {seq['generated_text']}")
+model = AutoModelForCasualLM.from_config(config)
+tokenizer = transformers.AutoTokenizer.from_pretrained(model_path)
 
+# https://huggingface.co/docs/transformers/v4.33.0/en/llm_tutorial#common-pitfalls
+input = tokenizer(SYSTEM_PROMPT + PROMPT, return_tensors="pt").to("cuda")
+generated_ids = model.generate(**input)
+output = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
