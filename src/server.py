@@ -35,10 +35,7 @@ def signup(username: str, password: str):
     return (
         HTTPStatus.ACCEPTED,
         {},
-        b"""
-        Your sign up request have been recieved\n
-        Please wait for admin approval
-        """,
+        b"Your sign up request have been recieved\nPlease wait for admin approval",
     )
 
 
