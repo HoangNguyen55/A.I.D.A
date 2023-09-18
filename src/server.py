@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from base64 import b64decode
 from websockets.datastructures import Headers
 from ai import AI
 import asyncio
@@ -11,7 +12,7 @@ ai: AI
 
 def login(username: str, password: str):
     # TODO implement data fetching for authorization
-    if password == True:
+    if password:
         return None
 
     return (
@@ -38,8 +39,9 @@ def signup(username: str, password: str):
 # TODO implement TLS (dont really need it rn tho)
 async def process_request(path: str, header: Headers):
     try:
-        auth = header["Authorization"].split(":")
-        username = auth[0].split(" ")[-1]
+        authb64 = header["Authorization"].split(" ")[-1]
+        auth = b64decode(authb64).decode('utf-8').split(":");
+        username = auth[0]
         password = auth[1]
     except KeyError:
         return (
