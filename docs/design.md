@@ -3,7 +3,7 @@
 - Xiang Liu: [A.I Dev](#team-roles)
 - Robert Liam Miller: [AAER Dev, Frontend Dev](#team-roles)
 - Zachary Whitaker: [Everything](#team-roles)
-- Mikheil Uglava: [Frontend Dev](#team-roles)
+- Mikheil Uglava: [Frontend Dev, Database dev](#team-roles)
 
 Project Link: https://github.com/HoangNguyen55/A.I.D.A
 
@@ -144,7 +144,7 @@ A lovely artificial intelligence thats help you in your daily life.
     - Train the A.I and deploy it
 - Backend developer (Server Dev)
     - Develope server for client to connect to
-    - Handle the database query
+- Database Dev
 - Frontend developer for admin page (Frontend Dev)
 - API for AI to access external resources developer (AAER Dev)
     - Create applications for the AI to access the World Wide Web
