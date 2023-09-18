@@ -16,10 +16,10 @@ class AI:
         self.model = AutoModelForCausalLM.from_config(config)
         self.tokenizer = transformers.AutoTokenizer.from_pretrained(self.model_path)
 
-    def feed_input(self, prompt: str, system_prompt: str = ""):
+    def feed_input(self, prompt: str, system_prompt: str = "") -> str:
         if not self.started:
             logging.critical("AI have not been started yet")
-            return
+            return ""
         # https://huggingface.co/docs/transformers/v4.33.0/en/llm_tutorial#common-pitfalls
         # TODO add token streaming
         input = self.tokenizer(system_prompt + prompt, return_tensors="pt").to("cuda")
