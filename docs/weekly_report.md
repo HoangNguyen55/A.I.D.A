@@ -10,21 +10,21 @@
         1. Mikheil: Make a skeleton of the webpage
         2. Liam: Learning Django
         3. Hoang:
-          - Write some test cases
-          - create a basic websocket server
-          - have the AI runing locally
+              - Write some test cases
+              - create a basic websocket server
+              - have the AI runing locally
         5. Zach: Learning Rust from the rust cook book
         6. Xiang: Run the LLM on google collab
     3. Plan for next week:
         1. Mikheil:
-           - Have the website finish
-           - Learn Git/Github
-           - Learn more Django
+               - Have the website finish
+               - Learn Git/Github
+               - Learn more Django
         3. Liam: Learning more Django
         4. Hoang:
-          - Write more test cases for the websocket server
-          - Sending server input to the AI
+              - Write more test cases for the websocket server
+              - Sending server input to the AI
         6. Zach:
-          - Get rust running
-          - Write test cases for the API
+              - Get rust running
+              - Write test cases for the API
         8. Xiang: ...
