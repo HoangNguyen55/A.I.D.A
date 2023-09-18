@@ -53,4 +53,5 @@ Store user login details
 uses Jenkins
 
 # Admin Webpage
-to be do later
+- let admin see logs
+- stop/start AI
