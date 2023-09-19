@@ -1,30 +1,40 @@
-1. Team report
-    1. Mikheil: Responsible for admin website and database
-    2. Liam: Responsible for admin website
-    3. Hoang: Write test cases and the backend server
-    4. Zach: Responsible for creating the API for the AI to communicate with the internet
-    5. Xiang: Working on the AI
-2. Contributions of individual team members
-    1.  Goals from last week: Empty
-    2.  Progress:
-        1. Mikheil: Make a skeleton of the webpage
-        2. Liam: Learning Django
-        3. Hoang:
-              - Write some test cases
-              - create a basic websocket server
-              - have the AI runing locally
-        5. Zach: Learning Rust from the rust cook book
-        6. Xiang: Run the LLM on google collab
-    3. Plan for next week:
-        1. Mikheil:
-               - Have the website finish
-               - Learn Git/Github
                - Learn more Django
-        3. Liam: Learning more Django
-        4. Hoang:
-              - Write more test cases for the websocket server
-              - Sending server input to the AI
-        6. Zach:
-              - Get rust running
-              - Write test cases for the API
-        8. Xiang: ...
+## Team report
+* Mikheil: Responsible for admin website and database
+* Liam: Responsible for admin website
+* Hoang: Write test cases and the backend server
+* Zach: Responsible for creating the API for the AI to communicate with the internet
+* Xiang: Working on the AI
+## Contributions of individual team members
+* ### Goals from last week: Empty
+* ### Progress:
+    - Mikheil: Make a skeleton of the webpage
+    - Liam: Learning Django
+
+    - Hoang:
+        * Write some test cases
+        * create a basic websocket server
+        * have the AI runing locally
+
+    - Zach: Learning Rust from the rust cook book
+
+    - Xiang: Successfully run the LLM on google collab
+        - I was try to run LLM on local machine but we didn't have access to the machine that have powerful gpu, later we found we can use Google Collab to run LLM and use there virtual massive GPU.
+## Plan for next week:
+-  Mikheil:
+    - Have the website finish
+    - Learn Git/Github
+    - Learn more Django
+
+- Liam: Learning more Django
+
+- Hoang:
+    - Write more test cases for the websocket server
+    - Sending server input to the AI
+
+- Zach:
+    - Get rust running
+    - Write test cases for the API
+- Xiang:
+    - Start to collect the data for AI
+    - Learn how to fine tuning LLM on our own data
