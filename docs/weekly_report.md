@@ -6,14 +6,14 @@
   ### Progress:
   - Mikheil: Responsible for admin website
   - Liam: Responsible for admin website
-  - Hoang: Write test cases and the backend server, interpreter for AAER
+  - Hoang: Write test cases and the backend server
   - Zach: Responsible for creating the API for the AI to communicate with the internet
   - Xiang: Working on the AI
         
   ### Plan for next week:
   - Mikheil: Responsible for admin website and database
   - Liam: Responsible for admin website
-  - Hoang: Write test cases and the backend server
+  - Hoang: Write test cases and the backend server, interpreter for AAER
   - Zach: Responsible for creating the API for the AI to communicate with the internet
   - Xiang: Working on the AI
 
