@@ -1,5 +1,4 @@
 import logging
-import bcrypt
 import mysql
 from mysql.connector import MySQLConnection
 from connect_db import read_db_config
@@ -69,24 +68,15 @@ class Aida_DB:
         except mysql.connector.Error as e:
             logging.error(f"Error fetching the database: {e.msg}")
 
-    def hash_pw(self, password: str) -> str:
-        # Generate a salt and hash the password
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-        return hashed_password.decode('utf-8')
-
     def add_user(self, username: str, password: str, is_admin: int, email: str, prompt: str = 'None') -> None:
         """ To add a new user
         :param is_admin: If the user has admin privileges. --> 0: FALSE, 1: TRUE
         :param prompt: System prompt
         :return: None
         """
-        # Hash the password
-        hashed_password = self.hash_pw(password)
-        self.connect_to_database()
         try:
             self.cursor.execute("INSERT INTO users (username, password, admin, email, system_prompt) VALUES (%s, %s, "
-                                "%s, %s, %s)", (username, hashed_password, is_admin, email, prompt,))
+                                "%s, %s, %s)", (username, password, is_admin, email, prompt,))
             self.conn.commit()
         except mysql.connector.Error as e:
             logging.error(f"Error adding a new user: {e.msg}")
@@ -95,11 +85,9 @@ class Aida_DB:
         """ This function adds user to pending users' db.
         :param admin: If the user has admin privileges. --> 0: FALSE, 1: TRUE
         """
-        # Hash the password
-        hashed_password = self.hash_pw(password)
         try:
             self.cursor.execute("INSERT INTO pending_users (username, password, admin, email) VALUES ("
-                                "%s, %s, %s, %s)", (username, hashed_password, admin, email))
+                                "%s, %s, %s, %s)", (username, password, admin, email))
             self.conn.commit()
         except mysql.connector.Error as e:
             logging.error(f"Error adding a new user: {e.msg}")
@@ -162,7 +150,6 @@ if __name__ == '__main__':
     my_db.create_table()
     # Create pending users table
     my_db.create_pending_users_table()
-
     #  add users
     # for i in range(25):
     #     my_db.add_user(f'{i}', '123456789', 0, f'{i}', 'None')
