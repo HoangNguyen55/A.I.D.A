@@ -47,7 +47,7 @@
     - Learn how to fine tuning LLM on our own data
   
   ### Progress:
-  - Mikheil: 
+  - Mikheil: Finished setting up the database, and learning Git
   - Liam:
     - Learning from the Ultimate Django series from CodeWithMosh.com
   - Hoang: Write the lexer part of the interpreter for AAER
@@ -58,7 +58,7 @@
     - Learning how to fine tune from youtube videos
         
   ### Plan for next week:
-  - Mikheil: 
+  - Mikheil: Integrate the admin page with the project
   - Liam: Learning more Django
   - Hoang:
     - Write more test cases for the websocket server
