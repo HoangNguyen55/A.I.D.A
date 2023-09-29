@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from mysql.connector.types import RowType
-from connect_db import read_db_config
+from .connect_db import read_db_config
 
 
 class Aida_DB:
