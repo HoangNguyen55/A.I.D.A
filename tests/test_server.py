@@ -16,13 +16,9 @@ async def test_process_request_no_auth():
     response_status, response_header, response_body = response
     assert response_status == HTTPStatus.UNAUTHORIZED, "Should be unauthorized"
 
-    assert response_header == {
-        "WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'
-    }, "Should be {'WWW-Authenticate': 'Basic realm=\"Access To A.I.D.A\"}"
+    assert response_header == {"WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'}
 
-    assert (
-        response_body == b"Authorization field is missing"
-    ), "Should be 'Authorization field is missing'"
+    assert response_body == b"Authorization field is missing"
 
 
 @pytest.mark.asyncio
@@ -36,7 +32,7 @@ async def test_process_request_wrong_path():
 
     response_status, _, response_body = response
     assert response_status == HTTPStatus.NOT_FOUND, "Should be unauthorized"
-    assert response_body == b"Path does not exist", "Should be 'Path does not exist'"
+    assert response_body == b"Path does not exist"
 
 
 @pytest.mark.asyncio
@@ -48,9 +44,7 @@ async def test_login_wrong_account():
 
     response_status, _, response_body = response
     assert response_status == HTTPStatus.UNAUTHORIZED, "Should be unauthorized"
-    assert (
-        response_body == b"Account does not exist"
-    ), "Should be 'Account does not exist'"
+    assert response_body == b"Account does not exist"
 
 
 @pytest.mark.asyncio
@@ -75,4 +69,4 @@ async def test_signup():
     assert (
         response_body
         == b"Your sign up request have been recieved\nPlease wait for admin approval"
-    ), "Should be 'Your sign up request have been recieved\nPlease wait for admin approval'"
+    )
