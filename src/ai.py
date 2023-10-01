@@ -21,6 +21,11 @@ class AI:
         self._tokenizer = AutoTokenizer.from_pretrained(self._model_path)
         self._started = True
 
+    def stop(self):
+        self._started = False
+        del self._model
+        del self._tokenizer
+        torch.cuda.empty_cache()
 
     # TODO add async
     def feed_input(self, prompt: str, system_prompt: str = "") -> str:
