@@ -35,7 +35,26 @@ Functions like a preprocessor in C
 Certain keywords will execute and replace certain tokens in the next chunk with it's output
 
 ## Client
-Do special action depending on the keywords
+Commandline Agruments:
+- `--link <url>`: websocket url
+- `--port <port>`: port number
+
+i.e: 
+`py client.py --link ws://localhost --port 5172 --path login`
+= `uri = "ws://localhost:5172/login"`
+
+`py client.py --link ws://localhost --port 5172 --path signup`
+= `uri = "ws://localhost:5172/signup"`
+
+Have a loop and take in user input, send it to the server.
+When you connect via either login or signup, ask for username and password
+
+i.e:
+username = username
+password = password
+
+auth = base64encode("username:password")
+authorizations = {"Authorization": f"Basic {auth}"}
 
 # Communication between Backend and Client
 REST APIs with TLS (stretch goal)
