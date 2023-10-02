@@ -1,5 +1,8 @@
+from typing import Any
 import logging
+import asyncio
 import torch
+from asyncio import Queue
 from transformers import AutoModelForCausalLM, AutoConfig, AutoTokenizer
 
 
@@ -7,8 +10,8 @@ class AI:
     def __init__(self, model_path):
         self._model_path = model_path
         self._started = False
-        self._model
-        self._tokenizer
+        self._model: Any = None
+        self._tokenizer: Any = None
 
     def start(self):
         config = AutoConfig.from_pretrained(
