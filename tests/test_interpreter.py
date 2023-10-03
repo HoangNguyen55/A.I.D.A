@@ -1,4 +1,4 @@
-from interpreter import Lexer
+from src.server.interpreter import Lexer
 
 
 def test_lexer():
