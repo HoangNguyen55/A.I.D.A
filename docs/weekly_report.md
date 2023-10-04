@@ -9,18 +9,34 @@
   - Xiang: Working on the AI
   
   ### Progress:
-  - Mikheil: 
+  - Mikheil: Successfully create admain page and datase
+
   - Liam: Learning Django
-  - Hoang: Write part of the interpreter
-  - Zach: Learn rust
-  - Xiang: Learning how to fine tune Llama2
+
+  - Hoang:
+    * Fixing uo issue with Pytest
+
+  - Zach: Finish learning rust APIs
+
+  - Xiang: Finish learning Finetune the LLM
         
   ### Plan for next week:
-  - Mikheil: 
-  - Liam: Learning more Django
-  - Hoang: Finish the interpreter
-  - Zach: Implement API call with rust
-  - Xiang: Collect data for AI
+  -  Mikheil:
+    -  Start to work on the client
+
+- Liam: Finsih learning Django
+
+- Hoang:
+    - Get AI ruuning on School PC
+
+- Zach:
+    - Create basic API call function
+    - Write test cases for the API
+
+- Xiang:
+    - Work with Hoang to get AI running on School PC
+    - Figure out the easiest way or best method to fine tune the LLM with our own data
+    - Spent some time to figure our own intial format to fine tune
 
 
 ## Contributions of individual team members
