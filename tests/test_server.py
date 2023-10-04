@@ -1,7 +1,7 @@
 import pytest
 from http import HTTPStatus
 from websockets.datastructures import Headers
-from server import process_request
+from src.server.server import process_request
 
 pytest_plugins = ("pytest_asyncio",)
 
@@ -18,7 +18,7 @@ async def test_process_request_no_auth():
 
     assert response_header == {"WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'}
 
-    assert response_body == b"Authorization field is missing"
+    assert response_body == b"Authorization field is missing or unparseable"
 
 
 @pytest.mark.asyncio

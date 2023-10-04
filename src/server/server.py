@@ -15,7 +15,7 @@ ai: AI
 
 def login(username: str, password: str):
     # TODO implement data fetching for authorization
-    hash = '$argon2id$v=19$m=65536,t=3,p=4$YzqRu34w0ZDZ9oF60Xqy1A$pMNUJ57zWywfRs8sNXTDii9BC1FyqlSNnt3bl+0R77U'
+    hash = "$argon2id$v=19$m=65536,t=3,p=4$YzqRu34w0ZDZ9oF60Xqy1A$pMNUJ57zWywfRs8sNXTDii9BC1FyqlSNnt3bl+0R77U"
     try:
         PASSHASH.verify(hash, password)
     except VerifyMismatchError:
@@ -43,7 +43,7 @@ def signup(username: str, password: str):
 async def process_request(path: str, header: Headers):
     try:
         authb64 = header["Authorization"].split(" ")[-1]
-        auth = b64decode(authb64).decode('utf-8').split(":");
+        auth = b64decode(authb64).decode("utf-8").split(":")
         username = auth[0]
         password = auth[1]
     except KeyError:
