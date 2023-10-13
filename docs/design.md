@@ -1,9 +1,9 @@
 # The team
 - Hoang Nguyen: [Everything](#team-roles)
 - Xiang Liu: [A.I Dev](#team-roles)
-- Robert Liam Miller: [AAER Dev, Frontend Dev](#team-roles)
+- Robert Liam Miller: [AAER Dev, Website Dev](#team-roles)
 - Zachary Whitaker: [Everything](#team-roles)
-- Mikheil Uglava: [Frontend Dev, Database dev](#team-roles)
+- Mikheil Uglava: [Website Dev, Database dev](#team-roles)
 
 Project Link: https://github.com/HoangNguyen55/A.I.D.A
 
