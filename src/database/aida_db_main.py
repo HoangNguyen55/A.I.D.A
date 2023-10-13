@@ -1,147 +1,86 @@
 import logging
-import mysql.connector
-from mysql.connector import MySQLConnection
-from mysql.connector.cursor import MySQLCursor
-from mysql.connector.types import RowType
-from .connect_db import read_db_config
+import sqlite3
+from connect_db import read_db_config
 
 
 class Aida_DB:
     def __init__(self):
-        self.db_config = read_db_config()
-        self.conn: MySQLConnection
-        self.cursor: MySQLCursor
+        self.db_config = read_db_config()  # SQLite database file
+        self.conn = None
+        self.cursor = None
         self.connect_to_database()
 
     def connect_to_database(self) -> None:
-        # To create a db connection
         try:
-            self.conn = MySQLConnection(**self.db_config)
-            # Create a cursor object to interact with the database
+            self.conn = sqlite3.connect(self.db_config)
             self.cursor = self.conn.cursor()
-        except mysql.connector.Error as err:
-            logging.critical(f"Something went wrong: {err.msg}")
-
-    def create_table(self):
-        """Creates a new table with the given name."""
-        query = """
-                CREATE TABLE IF NOT EXISTS users (
-                    idusers INT AUTO_INCREMENT PRIMARY KEY,
-                    username VARCHAR(100) UNIQUE,
-                    password VARCHAR(100),
-                    admin TINYINT(1) DEFAULT 0,
-                    email VARCHAR(100) UNIQUE,
-                    system_prompt VARCHAR(500) DEFAULT 'None'
-                );
-            """
-        try:
-            self.cursor.execute(query)
-            self.conn.commit()  # save changes
-        except mysql.connector.Error as e:
-            logging.error(f"Something went wrong: {e.msg}")
+        except sqlite3.Error as e:
+            logging.critical(f"Something went wrong: {e}")
 
     def create_pending_users_table(self) -> None:
-        query = f"""CREATE TABLE IF NOT EXISTS pending_users (
-                           id_pending_users INT AUTO_INCREMENT PRIMARY KEY,
-                           username VARCHAR(100) UNIQUE, 
-                           password VARCHAR(100), 
-                           admin TINYINT(1) DEFAULT 0,
-                           email VARCHAR(100) UNIQUE,
-                           system_prompt VARCHAR(500) Default 'None'
-                           ); """
+        """ Creates a 'pending_users' table in the database if it doesn't already exist. """
+        query = """
+                CREATE TABLE IF NOT EXISTS pending_users (
+                    id_pending_users INTEGER PRIMARY KEY AUTOINCREMENT,
+                    firstname VARCHAR(100),
+                    lastname VARCHAR(100), 
+                    username VARCHAR(100) UNIQUE, 
+                    password VARCHAR(100), 
+                    admin INTEGER DEFAULT 0,
+                    email TEXT UNIQUE
+                );
+        """
         try:
             self.connect_to_database()
             self.cursor.execute(query)
             self.conn.commit()
-        except mysql.connector.Error as e:
-            logging.error(f"Something went wrong: {e.msg}")
+        except sqlite3.Error as e:
+            logging.error(f"Something went wrong: {e}")
 
-    def read_table_data(self, table_name: str) -> None:
-        """Returns all data from users table"""
+    def read_table_data(self, table_name: str):
+        """
+            Reads and prints all data from a specified table in the database.
+        :param table_name: The name of the table to read data from.
+        """
 
         try:
             self.connect_to_database()
-            self.cursor.execute(f"""SELECT * FROM {table_name}""")
+            self.cursor.execute(f"SELECT * FROM {table_name}")
             my_result = self.cursor.fetchall()
             for item in my_result:
-                print(f"{item}")
-        except mysql.connector.Error as e:
-            logging.error(f"Error fetching the database: {e.msg}")
+                print(item)
+        except sqlite3.Error as e:
+            logging.error(f"Error fetching the database: {e}")
 
-    def add_user(
-        self,
-        username: str,
-        password: str,
-        is_admin: int,
-        email: str,
-        prompt: str = "None",
-    ) -> None:
-        """To add a new user
-        :param is_admin: If the user has admin privileges. --> 0: FALSE, 1: TRUE
-        :param prompt: System prompt
-        :return: None
-        """
+    def add_pending_user(self, first_name: str, last_name: str, username: str, password: str, email: str) -> None:
         try:
             self.cursor.execute(
-                "INSERT INTO users (username, password, admin, email, system_prompt) VALUES (%s, %s, "
-                "%s, %s, %s)",
-                (
-                    username,
-                    password,
-                    is_admin,
-                    email,
-                    prompt,
-                ),
+                "INSERT INTO aida_admin_app_pendinguser (first_name, last_name, username, password, email) VALUES (?, "
+                "?, ?, ?, ?)",
+                (first_name, last_name, username, password, email),
             )
             self.conn.commit()
-        except mysql.connector.Error as e:
-            logging.error(f"Error adding a new user: {e.msg}")
-
-    def add_pending_user(
-        self, username: str, password: str, admin: int, email: str
-    ) -> None:
-        """This function adds user to pending users' db.
-        :param admin: If the user has admin privileges. --> 0: FALSE, 1: TRUE
-        """
-        try:
-            self.cursor.execute(
-                "INSERT INTO pending_users (username, password, admin, email) VALUES ("
-                "%s, %s, %s, %s)",
-                (username, password, admin, email),
-            )
-            self.conn.commit()
-        except mysql.connector.Error as e:
-            logging.error(f"Error adding a new user: {e.msg}")
+        except sqlite3.Error as e:
+            logging.error(f"Error adding a new user: {e}")
 
     def user_exists(self, username: str, email: str, table_name: str) -> bool:
-        """Helper method to determine if user exists"""
-        query = f"SELECT 1 FROM {table_name} WHERE username = %s AND email = %s"
+        query = f"SELECT 1 FROM {table_name} WHERE username = ? AND email = ?"
         try:
-            self.cursor.execute(
-                query,
-                (
-                    username,
-                    email,
-                ),
-            )
+            self.cursor.execute(query, (username, email))
             result = self.cursor.fetchone()
             if result:
-                return True  # User exists
+                return True
             else:
-                return False  # User does not exist
-        except mysql.connector.Error as e:
-            logging.error(f"Error checking user existence: {e.msg}")
-            return False  # Assume an error occurred
+                return False
+        except sqlite3.Error as e:
+            logging.error(f"Error checking user existence: {e}")
+            return False
 
-    def get_user(self, username: str, email: str, table_name: str) -> RowType:
-        """To search the user in DB and return their data"""
+    def get_user(self, username: str, email: str, table_name: str) -> sqlite3.Row:
         try:
             self.cursor.execute(
-                f"SELECT * FROM {table_name} WHERE username = %s AND email = %s",
-                (
-                    username,
-                    email,
-                ),
+                f"SELECT * FROM {table_name} WHERE username = ? AND email = ?",
+                (username, email),
             )
             temp = self.cursor.fetchone()
             if temp:
@@ -150,38 +89,29 @@ class Aida_DB:
             logging.error(
                 f"No user found with the provided username: {username} and email: {email}"
             )
-        except mysql.connector.Error as e:
-            logging.error(f"Error: {e.msg}")
+        except sqlite3.Error as e:
+            logging.error(f"Error: {e}")
 
         raise Exception(
             f"No user found with the provided username: {username} and email: {email}"
         )
 
     def delete_user(self, username: str, email: str, table_name: str) -> None:
-        query = f"""DELETE FROM {table_name} WHERE username = %s AND email = %s"""
+        query = f"DELETE FROM {table_name} WHERE username = ? AND email = ?"
         if self.user_exists(username, email, table_name):
             try:
-                self.cursor.execute(
-                    query,
-                    (
-                        username,
-                        email,
-                    ),
-                )
-                self.conn.commit()  # save the changes
-            except mysql.connector.Error as e:
-                logging.error(f"Error deleting user: {e.msg}")
+                self.cursor.execute(query, (username, email))
+                self.conn.commit()
+            except sqlite3.Error as e:
+                logging.error(f"Error deleting user: {e}")
         else:
-            raise Exception(
-                f"Error deleting the user: User {username}, {email} was not found"
-            )
+            raise Exception(f"Error deleting the user: User {username}, {email} was not found")
 
     def approve_pending_user(self, username: str, email: str) -> None:
         """To approve a pending user. The user will be removed from pending users db and moved to main db"""
-
         if self.user_exists(username, email, "pending_users"):
             temp = self.get_user(username, email, "pending_users")
-            self.add_user(str(temp[1]), str(temp[2]), bool(temp[3]), str(temp[4]))
+            self.add_user(temp[1], temp[2], temp[3], temp[4])
             self.delete_user(username, email, "pending_users")
         else:
             logging.error(f"User '{username}' was not found")
@@ -190,19 +120,5 @@ class Aida_DB:
 
 if __name__ == "__main__":
     my_db = Aida_DB()
-    # create users tables
-    my_db.create_table()
-    # Create pending users table
-    my_db.create_pending_users_table()
-    #  add users
-    # for i in range(25):
-    #     my_db.add_user(f'{i}', '123456789', 0, f'{i}', 'None')
-    # print(my_db.get_user('user1', 'email1', 'users'))
-
-    # add pending users
-    # for i in range(25):
-    #     my_db.add_pending_user(f'{i}', '123456789', 0, f'{i}')
-
-    # Add another pending user and approve their request, move the user to the main DB table.
-    # my_db.add_pending_user('51', '115345', 0, '51')
-    # my_db.approve_pending_user('51', '51')
+    # my_db.read_table_data('aida_admin_app_pendinguser')
+    # Add users, pending users, and approve a pending user as needed.
