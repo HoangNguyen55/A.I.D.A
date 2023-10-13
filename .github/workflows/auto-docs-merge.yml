@@ -3,26 +3,27 @@ name: Merge Docs into All Branches
 on:
   push:
     branches:
-      - docs
+      - documentation
+
+env:
+  REPO: https://HoangNguyen55:${{secrets.GITHUB_TOKEN}}@github.com/HoangNguyen55/A.I.D.A.git
 
 jobs:
   merge-docs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
-
     - name: Merge Docs into All Branches
       run: |
-        # Loop through all branches in the repository
-        for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/); do
-          # Skip the docs branch and the current branch
-          if [ "$branch" != "docs" ] && [ "$branch" != "main" ]; then
-            git checkout $branch
-            git merge docs --no-edit
-            git push origin $branch
-          fi
+        git clone ${{env.REPO}} tmp
+        cd tmp
+        git config --local user.name "Automerge bot"
+        git config --local user.email "bot@example.com"
+        
+        for branch in $(git for-each-ref --format='%(refname:short)' | grep "/" | cut -d'/' -f2); do
+            if [ "$branch" != "documentation" ] && [ "$branch" != "main" ]; then
+                git checkout $branch
+                git merge origin/documentation --no-edit
+                git push
+            fi
         done
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
