@@ -1,8 +1,16 @@
-from django.shortcuts import render
-from django.contrib.auth import get_user_model
-from .models import PendingUser
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
 
 
-def register(request):
-    return render(request, 'aida_admin_app/register.html')
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+
+            return redirect('<h1>Redirected</h1>')
+        else:
+            form = AuthenticationForm()
+        return render(request, 'todo_app/base.html', {'form': form})
 
