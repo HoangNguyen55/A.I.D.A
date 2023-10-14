@@ -1,8 +1,10 @@
+# Python
+
 ## Coding Style
 
 ### Use Black formatter
 
-Black is a python formatter, it will make everyone's code look in the same style, that way its easier to read each other's code.
+Black is a python formatter, which follows [PEP8](https://pep8.org/), however it is a opinionated formatter, and there is little room for customization, which is good because the style will stay the same regardless of how you want to format it.
 
 Set up the black formatter in vscode [here](https://code.visualstudio.com/docs/python/formatting)
 
@@ -50,6 +52,8 @@ def combine(a: int | str, b: int | str) -> str:
         return f"{a} {b}"
 ```
 
+In the case that type hinting isn't possible, i.e, the libary we're using don't specific what type their function returns, use docstring.
+
 ### Use logging instead of print
 
 Using logging statements will make it a whole lot easier to debug when something go wrong.
@@ -65,3 +69,7 @@ logging.warning("") # for when something goes wrong, but the app is still functi
 logging.error("") # for when something goes wrong, the app still works, but someone need to check it
 logging.critical("") # for when something goes horribly wrong, and the app can not functions
 ```
+
+# Rust
+
+For rust follow the [coding conventions](https://rustc-dev-guide.rust-lang.org/conventions.html)
