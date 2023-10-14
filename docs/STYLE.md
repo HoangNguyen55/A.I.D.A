@@ -1,3 +1,5 @@
+## Coding Style
+
 ### Use Black formatter
 
 Black is a python formatter, it will make everyone's code look in the same style, that way its easier to read each other's code.
@@ -5,6 +7,11 @@ Black is a python formatter, it will make everyone's code look in the same style
 Set up the black formatter in vscode [here](https://code.visualstudio.com/docs/python/formatting)
 
 Set up in pycharm [here](<https://www.jetbrains.com/help/pycharm/reformat-and-rearrange-code.html#format-python-code-with-black>)
+
+### Docstrings
+Use docstring to document your functions: https://peps.python.org/pep-0257/
+
+## Coding Guideline
 
 ### Use f strings
 F string can be use to insert variable's values directly in a string, its more readable than `.format`.
@@ -43,9 +50,6 @@ def combine(a: int | str, b: int | str) -> str:
         return f"{a} {b}"
 ```
 
-### Docstrings
-Use docstring to document your functions: https://peps.python.org/pep-0257/
-
 ### Use logging instead of print
 
 Using logging statements will make it a whole lot easier to debug when something go wrong.
@@ -61,6 +65,3 @@ logging.warning("") # for when something goes wrong, but the app is still functi
 logging.error("") # for when something goes wrong, the app still works, but someone need to check it
 logging.critical("") # for when something goes horribly wrong, and the app can not functions
 ```
-
-### Pep8
-Also take a look at [pep8](https://peps.python.org/pep-0008)
