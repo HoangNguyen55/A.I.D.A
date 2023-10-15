@@ -299,7 +299,7 @@ Transformer: Easy inferencing LLMs, abstract away implementation of ML algorithm
     - **Likelihood of occurring (high, medium, low)**: medium
     - **Impact if it occurs (high, medium, low):** medium
     - **Evidence upon which you base your estimates, such as what information you have already gathered or what experiments you have done:** 
-        - Hoang is taking 8 class right now and a part-time job
+        - Hoang is taking 7 class right now and a part-time job
         - Zach have 6 classes and a part-time job
         - Xiang, Mikail have a part-time job.
     - **Steps you are taking to reduce the likelihood or impact, and steps to permit better estimates:** Better time managment.
