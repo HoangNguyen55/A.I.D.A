@@ -24,7 +24,7 @@ A lovely artificial intelligence thats help you in your daily life.
 ## Stretch goals
 
 - [ ] Mobile App
-- [ ] Text To Speech
+- [ ] Text To Speech with emotions
 - [ ] Provide source for questions asked
 
 # Requirements
@@ -127,6 +127,43 @@ A lovely artificial intelligence thats help you in your daily life.
     - [ ] Provide a way for user to download the AI model we are using.
 - [ ] Explain how to build from source
 - [ ] Well documented
+
+# Software Architecture
+## Components
+- Rust: Compiled language use for creating commandline programs for the AI to use for communicating with APIs from the internet.
+- Python: Uses Huggingface Transformer library to run LLM.
+- Websocket: Python library to create a websocket server/client for communicating via text.
+- Llama 2: LLM model, responses to user queries.
+
+## Interface
+- Python -> Llama 2: use Transformer library to run Llama 2.
+- Llama 2 -> Rust: Llama 2 run the rust compiled program as a commandline application.
+- Websocket -> Llama 2: The websocket server will send the user input into Llama 2 as it come in.
+
+## Data
+The data being stored are user related data, using for logging in, and their permission.
+
+Currently there is only one customizable feature that is stored in the database, which is System Prompt.
+
+### Database
+#### Users
+Stores user that can access the app
+
+|id     |usrename   |password |admin  |system prompt  |
+| -     |-          |-        |-      |-              |
+|int    |String     |String   |Bool   |String         |
+|...    |...        | ...     |...    |...            |
+
+#### Pending approval
+
+|username   |password               |
+|-          |-                      |
+|String     |String                 |
+|...        | ...                   |
+
+# Software Design
+
+
 
 # Development Processes
 ## Programing Languages
