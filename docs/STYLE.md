@@ -1,10 +1,19 @@
+# Python
+
+## Coding Style
+
 ### Use Black formatter
 
-Black is a python formatter, it will make everyone's code look in the same style, that way its easier to read each other's code.
+Black is a python formatter, which follows [PEP8](https://pep8.org/), however it is a opinionated formatter, and there is little room for customization, which is good because the style will stay the same regardless of how you want to format it.
 
 Set up the black formatter in vscode [here](https://code.visualstudio.com/docs/python/formatting)
 
 Set up in pycharm [here](<https://www.jetbrains.com/help/pycharm/reformat-and-rearrange-code.html#format-python-code-with-black>)
+
+### Docstrings
+Use docstring to document your functions: https://peps.python.org/pep-0257/
+
+## Coding Guideline
 
 ### Use f strings
 F string can be use to insert variable's values directly in a string, its more readable than `.format`.
@@ -43,8 +52,7 @@ def combine(a: int | str, b: int | str) -> str:
         return f"{a} {b}"
 ```
 
-### Docstrings
-Use docstring to document your functions: https://peps.python.org/pep-0257/
+In the case that type hinting isn't possible, i.e, the libary we're using don't specific what type their function returns, use docstring.
 
 ### Use logging instead of print
 
@@ -62,5 +70,6 @@ logging.error("") # for when something goes wrong, the app still works, but some
 logging.critical("") # for when something goes horribly wrong, and the app can not functions
 ```
 
-### Pep8
-Also take a look at [pep8](https://peps.python.org/pep-0008)
+# Rust
+
+For rust follow the [coding conventions](https://rustc-dev-guide.rust-lang.org/conventions.html)
