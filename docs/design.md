@@ -24,7 +24,7 @@ A lovely artificial intelligence thats help you in your daily life.
 ## Stretch goals
 
 - [ ] Mobile App
-- [ ] Text To Speech
+- [ ] Text To Speech with emotions
 - [ ] Provide source for questions asked
 
 # Requirements
@@ -128,6 +128,132 @@ A lovely artificial intelligence thats help you in your daily life.
 - [ ] Explain how to build from source
 - [ ] Well documented
 
+# Software Architecture
+## Components
+#### Rust: 
+Libraries:  
+- [Reqwest](https://docs.rs/reqwest/latest/reqwest/)
+
+#### Python: 
+Frameworks:
+- [Websocket](https://websockets.readthedocs.io/en/stable/index.html)
+
+- [Django](https://www.djangoproject.com/)
+
+- [Sqlite3](https://docs.python.org/3/library/sqlite3.html)
+
+Libraries:
+- [Transformer](https://huggingface.co/docs/transformers/index)
+
+#### LLM:
+- [Llama 2](https://ai.meta.com/llama/): LLM model, responses to user queries.
+
+## Interface
+- Python -> Llama 2: use Transformer library to run Llama 2.
+- Llama 2 -> Rust: Llama 2 run the rust compiled program as a commandline application.
+- Django -> Database: Django admin webpage will make calls to python functions that can update the database.
+- Websocket -> Llama 2: The websocket server will send the user input into Llama 2 as it come in.
+
+## Data
+The data being stored are user related data, using for logging, and their admin permission, etc...
+
+Currently there is only one customizable feature that is stored in the database, which is System Prompt.
+
+### Database
+#### Users
+Stores user that can access the app
+
+|id     |usrename   |password |email    |is admin   |last login  |system prompt  |
+| -     |-          |-        |-        |-          |-           |-              |
+|int    |String     |String   |string   |Bool       |Datetime    |String         |
+|...    |...        | ...     |...      |...        |...         |...            |
+
+#### Pending approval
+Store user that registered but still need approval from the admin
+
+|username   |password |email    |
+|-          |-        |-        |
+|String     |String   |string   |
+|...        | ...     |...      |
+
+## Assumptions
+Hardware: Assume the user have the machine with at least Rtx 4090 Nvidia GPU, 128gb RAM
+
+## Alternatives
+#### Rust:
+Python:
+- Pros: easy to use
+- Cons: slow
+
+Go:
+- Pros: easy to use, faster than python, fast compile time compare to rust
+- Cons: google tracking
+
+#### Websocket:
+REST APIs:
+- Pros: Easy to implement, and scalable
+- Cons: Time lag make it hard for real time communication
+
+Polling:
+- Pros: Can be use in case websocket is not available
+- Cons: less efficient than Websocket
+
+#### Llama 2:
+[TinyLlama](https://huggingface.co/PY007/TinyLlama-1.1B-Chat-v0.3)
+- Pros: Less hardware requirements
+- Cons: Isn't as good as Llama 2
+
+[OpenAssistant](https://github.com/LAION-AI/Open-Assistant)
+- Pros: It already trained for the purpose of virtual assistant so we can use it right away
+- Cons: Early stage of development
+
+#### Django:
+Flask
+- Pros: Simplicity and Minimalism.
+- Cons: Flask's minimalism can be a limitation for larger, more complex projects
+
+Express.js
+- Pros: Speed and Scalability.
+- Cons: Too minimal which make it harder to implement complex task
+
+#### Sqlite3: 
+MySQL:
+- Pros: More robust, Scalability
+- Cons: Complicated to setup
+
+PostgreSQL:
+- Pros: Support complex datatype
+- Cons: Resource-intensive, Hard to setup
+
+#### Transformer:
+Tinygrad:
+- Pros: Easy to use
+- Cons: Not as easy as Transformer
+
+Pytorch:
+- Pros: Powerful
+- Cons: Pretty much have to write everything from scratch
+
+
+# Software Design
+
+### Rust:
+Compiled language use for creating commandline programs for the AI to use for communicating with APIs from the internet.
+##### Libraries:
+Reqwest: Make APIs calls, abstract away crafting http calls by hand, headers, handshaking, etc...
+
+### Python:
+High-level programming language used running machine learning models.
+
+##### Libraries:
+Websocket: Create a websocket server/client for communicating via text, abstract away handshaking, compressing, websocket protocols, etc...
+
+Django: Create front-end of the admin website, abstract away having to write html, server backend codes
+
+Sqlite3: Interface with database for storing user data, abstract away sql query
+
+Transformer: Easy inferencing LLMs, abstract away implementation of ML algorithm (RNN, Transformer, etc...)
+
 # Development Processes
 ## Programing Languages
 - Python 
@@ -151,33 +277,84 @@ A lovely artificial intelligence thats help you in your daily life.
 - CI/CDer
     - set up ci/cd
 
-## Schedule
+## Risks
 
+1. Not having access to a powerful enough computer for running the app:
+    - **Likelihood of occurring (high, medium, low)**: Medium
+    - **Impact if it occurs (high, medium, low):** High
+    - **Evidence upon which you base your estimates, such as what information you have already gathered or what experiments you have done:** We can not access the school computer from the outside for the last two weeks it have been build.
+    - **Steps you are taking to reduce the likelihood or impact, and steps to permit better estimates:** Ask Nate daily
+    - **Plan for detecting the problem:** Ask Nate daily
+    - **Mitigation plan should it occur:** Run on google collab, or rent out a cheap server to run our app
+
+2. Lost of data:
+    - **Likelihood of occurring (high, medium, low)**: low
+    - **Impact if it occurs (high, medium, low):** medium
+    - **Evidence upon which you base your estimates, such as what information you have already gathered or what experiments you have done:** Hoang's SSD broke twice since the school started, he also fries his 3080.
+    - **Steps you are taking to reduce the likelihood or impact, and steps to permit better estimates:** Upload code to github, data to the cloud.
+    - **Plan for detecting the problem:** Check git status for unpushed commit
+    - **Mitigation plan should it occur:** Redo all the lost work
+
+3. The team don't have enough time to work on the project:
+    - **Likelihood of occurring (high, medium, low)**: medium
+    - **Impact if it occurs (high, medium, low):** medium
+    - **Evidence upon which you base your estimates, such as what information you have already gathered or what experiments you have done:** 
+        - Hoang is taking 7 class right now and a part-time job
+        - Zach have 6 classes and a part-time job
+        - Xiang, Mikail have a part-time job.
+    - **Steps you are taking to reduce the likelihood or impact, and steps to permit better estimates:** Better time managment.
+    - **Plan for detecting the problem:** Everyone in the team checking their available schedules
+    - **Mitigation plan should it occur:** Cut down the scope of the project
+
+4. Breaking changes in dependencies:
+    - **Likelihood of occurring (high, medium, low)**: low
+    - **Impact if it occurs (high, medium, low):** high
+    - **Evidence upon which you base your estimates, such as what information you have already gathered or what experiments you have done:** In Hoang testing for Docker build, everything break when the docker image expect CUDA 12.2 but he have 12.0 installed.
+    - **Steps you are taking to reduce the likelihood or impact, and steps to permit better estimates:** Regularly testing
+    - **Plan for detecting the problem:** Regularly testing 
+    - **Mitigation plan should it occur:** Update/downgrade the affected dependencies.
+
+5. Cost changes to API/Library we use:
+    - **Likelihood of occurring (high, medium, low)**: low
+    - **Impact if it occurs (high, medium, low):** medium
+    - **Evidence upon which you base your estimates, such as what information you have already gathered or what experiments you have done:** Recently tech company like Reddit, X (Formerly known as Twitter), update their API cost which make it unreasonable for independent developers to make use of it, github could do the same and make github action cost something.
+    - **Steps you are taking to reduce the likelihood or impact, and steps to permit better estimates:** Find alternative APIs, or services
+    - **Plan for detecting the problem:** Website sent email when they have cost changes to their service
+    - **Mitigation plan should it occur:** Switch to a new service/APIs
+    
+
+There was virtually no risk when we first submit our requirement, the only thing we have are 
+
+`The team don't have enough time to learn new technology`
+
+## Schedule
 ### A.I Dev:
-- September 5th - September 13rd: Deploy the A.I (Chat with it like a chat bot via text)
-- September 13rd - 27th: Collect Data
-- September 27th: Train the A.I (Give desireable output)
+- October 16 - 30: Fine-tune Llama 2 with [dataset](https://huggingface.co/datasets/timdettmers/openassistant-guanaco)
 
 ### Backend Dev:
-- Sep 13rd - 27th: Feed input into the A.I from a REST API
-- XXX: Make a database and store something in it
+- October 16 - 23: Validate user thats in the database
+
+### Database Dev:
+- October 16 - 23: Update database to the current schema
 
 ### Frontend Dev:
-- September 13rd - 20th: Interface with the A.I
-
-- XXX: Accept User Sign up
-- XXX: Button to export the data in the database to csv or something
-- XXX: See health of the A.I (optional)
-- XXX: See statistic of server usage
 
 ### AAER
-- September 5th - 27th: Create the `search` API
+- October 16 - 30 : Create the `search` API
+
+### CICD:
+- October 16 - Nov 7: Set up docker build system to package everything thats needed to run the app into 1 container
 
 ### Core
 Final Deadline: November 12th
 
-## Risks
-1. The team don't have enough time to learn new technology
+## Documentation plan
+
+User guide: Hoang will make a one click install script, and a wikipage for more details
+
+Dev Guide: Update the [CONTRIBUTING.md](CONTRIBUTING.md)
+
+Code documentation: Auto generated from Docstrings with [pydoc](https://docs.python.org/3/library/pydoc.html)
 
 ## External Feedback
 External feedback would be needed after the AI is up and running, we can ask friends and family.

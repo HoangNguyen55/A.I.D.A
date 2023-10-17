@@ -1,27 +1,33 @@
-use serde::Deserialize;
-use reqwest::Error;
-use reqwest::header::USER_AGENT;
-use tokio;
+use reqwest::blocking::Client;
+use scraper::{Html, Selector};
 
-#[derive(Deserialize, Debug)]
-struct User {
-    login: String,
-    id: u32,
+fn main() -> Result<(), Box<dyn std::error::Error>> 
+{ 
+ let client = Client::new(); 
+ let query = "rust+programming+language";
+ let url = format!("https:www.google.com/search?q={}" , query);
+ let res = client.get(&url).send()?;
+ let html = res.text()?;
+ let fragment = Html::parse_document(&html);
+ let selector = Selector::parse("div.g").unwrap();
+
+ for element in fragment.select(&selector) {
+    let title_selector = Selector::parse("h3").unwrap();
+    let title_element = element.select(&title_selector).next().unwrap();
+    let title = title_element.text().collect::<Vec<_>>().join("");
+
+    let link_selector = Selector::parse(".yuRUbf > a").unwrap();
+    let link_element = element.select(&link_selector).next().unwrap();
+    let link = link_element.value().attr("href").unwrap();
+
+    let snippet_selector = Selector::parse(".VwiC3b").unwrap();
+    let snippet_element = element.select(&snippet_selector).next().unwrap();
+    let snippet = snippet_element.text().collect::<Vec<_>>().join("");
+
+    println!("Title: {}", title);
+    println!("Link: {}", link);
+    println!("Snippet: {}", snippet);
 }
-
-#[tokio::main]
-async fn main() -> Result<(), Error> {
-    let request_url = format!("https://api.github.com/repos/{owner}/{repo}/stargazers",
-                              owner = "rust-lang-nursery",
-                              repo = "rust-cookbook");
-    println!("{}", request_url);
-    let client = reqwest::Client::new();
-    let response = client
-        .get(request_url)
-        .header(USER_AGENT, "rust web-api-client demo")
-        .send()
-        .await?;
-    let users: Vec<User> = response.json().await?;
-    println!("{:?}", users);
-    Ok(())
+println!("Output: {}", html);
+Ok(())
 }
