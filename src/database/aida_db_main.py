@@ -52,12 +52,11 @@ class Aida_DB:
         except sqlite3.Error as e:
             logging.error(f"Error fetching the database: {e}")
 
-    def add_pending_user(self, first_name: str, last_name: str, username: str, password: str, email: str) -> None:
+    def add_pending_user(self, username: str, password: str, email: str) -> None:
         try:
             self.cursor.execute(
-                "INSERT INTO aida_admin_app_pendinguser (first_name, last_name, username, password, email) VALUES (?, "
-                "?, ?, ?, ?)",
-                (first_name, last_name, username, password, email),
+                "INSERT INTO aida_admin_app_pendinguser (username, password, email) VALUES (?, ?, ?)",
+                (username, password, email),
             )
             self.conn.commit()
         except sqlite3.Error as e:
@@ -120,5 +119,14 @@ class Aida_DB:
 
 if __name__ == "__main__":
     my_db = Aida_DB()
+    # Create a pendinguser table if it doesn't exist
+    # my_db.create_pending_users_table()
+
+    # Read data from pendinguser table
     # my_db.read_table_data('aida_admin_app_pendinguser')
-    # Add users, pending users, and approve a pending user as needed.
+
+    # Add a new pending user to database table
+    # my_db.add_pending_user('pending_user01', '1234234', 'pending_user01@gmail.com')
+
+    # Read data from users table
+    # my_db.read_table_data('auth_user')
