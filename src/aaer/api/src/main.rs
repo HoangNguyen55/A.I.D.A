@@ -1,13 +1,26 @@
 use reqwest::blocking::Client;
 use scraper::{Html, Selector};
 use std::fs::File;
-use std::io::Write;
+use std::io::{stdin,stdout,Write};
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> 
 { 
-    let client = Client::new(); 
-    let query = "warframe+guide";
+    let mut s=String::new();
+    print!("Enter Search: ");
+    let _=stdout().flush();
+    stdin().read_line(&mut s).expect("Did not enter a correct string");
+    if let Some('\n')=s.chars().next_back() {
+        s.pop();
+    }
+    if let Some('\r')=s.chars().next_back() {
+        s.pop();
+    }
+
+    let client = Client::new();
+    //let query = "warframe+guide";
+    let query = s.replace(" ", "+");
+    println!("Query Dump: {}", query);
     let url = format!("https:www.google.com/search?q={}" , query);
     let res = client.get(&url).header(reqwest::header::USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36").send()?;
     let html = res.text()?;
