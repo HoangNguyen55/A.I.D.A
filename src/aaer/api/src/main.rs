@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
     let client = Client::new();
     //let query = "warframe+guide";
     let query = s.replace(" ", "+");
-    println!("Query Dump: {}", query);
+    println!("Query Dump into program: {}", query);
     let url = format!("https:www.google.com/search?q={}" , query);
     let res = client.get(&url).header(reqwest::header::USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36").send()?;
     let html = res.text()?;
@@ -35,8 +35,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
         let title_element = element.select(&title_selector).next().ok_or("ERROR: Title Element not Found")?;
         let title = title_element.text().collect::<Vec<_>>().join("");
 
-        let link_selector = Selector::parse(".yuRUbf")?;
-        let link_element = element.select(&link_selector).next().ok_or("ERROR: Link Element not Found")?;
+        //let link_selector = Selector::parse(".yuRUbf")?;
+        //let link_element = element.select(&link_selector).next().ok_or("ERROR: Link Element not Found")?;
         //let link = link_element.value().attr("href").ok_or("ERROR: href Attribute not Found")?;
 
         let snippet_selector = Selector::parse(".VwiC3b")?;
