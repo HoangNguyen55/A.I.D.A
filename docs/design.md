@@ -131,35 +131,39 @@ A lovely artificial intelligence thats help you in your daily life.
 # Software Architecture
 ## Components
 #### Rust: 
-Libraries:  
-- [Reqwest](https://docs.rs/reqwest/latest/reqwest/)
+Dependencies:  
+- [Reqwest](https://docs.rs/reqwest/latest/reqwest/): simplifies the process of making HTTP requests and handling HTTP responses
 
 #### Python: 
-Frameworks:
-- [Websocket](https://websockets.readthedocs.io/en/stable/index.html)
+Dependencies:  
+- [Websocket](https://websockets.readthedocs.io/en/stable/index.html): facilitate real-time, bidirectional communication between clients and servers.
 
-- [Django](https://www.djangoproject.com/)
+- [Django](https://www.djangoproject.com/): web framework for building web applications, providing tools for routing, database interactions, authentication, and more.
 
-- [Sqlite3](https://docs.python.org/3/library/sqlite3.html)
+- [Sqlite3](https://docs.python.org/3/library/sqlite3.html): offers a simple way to work with SQLite databases within Python applications
 
-Libraries:
-- [Transformer](https://huggingface.co/docs/transformers/index)
+- [Transformer](https://huggingface.co/docs/transformers/index): enable advanced natural language processing tasks using deep learning techniques.
 
 #### LLM:
 - [Llama 2](https://ai.meta.com/llama/): LLM model, responses to user queries.
 
 ## Interface
-- Python -> Llama 2: use Transformer library to run Llama 2.
-- Llama 2 -> Rust: Llama 2 run the rust compiled program as a commandline application.
-- Django -> Database: Django admin webpage will make calls to python functions that can update the database.
-- Websocket -> Llama 2: The websocket server will send the user input into Llama 2 as it come in.
+- Python -> Llama 2: use Transformer library to run Llama 2. Llama 2 take in text and output text.
+- Llama 2 -> Rust: Llama 2 run the rust compiled program as a commandline application. The AAER app take in text and output text.
+- Django -> Database: Django admin webpage will make calls to python functions that can update the database, Django calls python function with input depeneding on the data (change password need text as input) the output would be nothing if the operation succeded otherwise an exception is thrown.
+- Websocket -> Llama 2: The websocket server will send the user input into Llama 2 as it come in. websocket recieve text input from the client, and send it to Llama 2 via a python function, then it send the output of Llama 2 back to the client.
 
 ## Data
 The data being stored are user related data, using for logging, and their admin permission, etc...
 
 Currently there is only one customizable feature that is stored in the database, which is System Prompt.
 
+### Logs
+All pass and current conversation are stored in plain text.
+
 ### Database
+No data is store prior to prompting, data are only store for approved user and user that signup
+
 #### Users
 Stores user that can access the app
 
@@ -239,20 +243,36 @@ Pytorch:
 
 ### Rust:
 Compiled language use for creating commandline programs for the AI to use for communicating with APIs from the internet.
-##### Libraries:
-Reqwest: Make APIs calls, abstract away crafting http calls by hand, headers, handshaking, etc...
+##### Dependencies:
+Reqwest: Make APIs calls
+- receive url to make REST calls to
+- allow user to build header using builder pattern
+- recieve response of a website as text so the user can do their own operation on it
+- abstract away crafting http calls by hand, headers, handshaking, etc...
 
 ### Python:
 High-level programming language used running machine learning models.
 
-##### Libraries:
-Websocket: Create a websocket server/client for communicating via text, abstract away handshaking, compressing, websocket protocols, etc...
+##### Dependencies:
+Websocket: Create a websocket server/client for communicating via text
+- recives http headers and parse to make sure it is coming from a valid source
+- establish a connection with a client and communicate via text, binary data are also possible
+- abstract away handshaking, compressing, websocket protocols, etc...
 
-Django: Create front-end of the admin website, abstract away having to write html, server backend codes
+Django: Create front-end of the admin website
+- handle GET request
+- serve html pages to the connecting browser
+- recieve events coming from the browser (REST)
+- abstract away having to write html, server backend codes
 
-Sqlite3: Interface with database for storing user data, abstract away sql query
+Sqlite3: Interface with database for storing user data
+- take in data that is compatible to the database and do the corresponding query
+- abstract away sql query
 
-Transformer: Easy inferencing LLMs, abstract away implementation of ML algorithm (RNN, Transformer, etc...)
+Transformer: Easy inferencing LLMs 
+- recieve name of LLM to run, download it if there is no local copy
+- run the LLM with its corresponding ML algorithm
+- abstract away implementation of ML algorithm (RNN, Transformer, etc...)
 
 # Development Processes
 ## Programing Languages
