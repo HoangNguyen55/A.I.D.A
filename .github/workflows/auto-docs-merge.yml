@@ -12,12 +12,12 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
 
     - name: Merge Docs into All Branches
       run: |
-        git config --local user.name "Automerge bot"
-        git config --local user.email "bot@example.com"
-
         for branch in $(git for-each-ref --format='%(refname:short)' | grep "/" | cut -d'/' -f2); do
             if [ "$branch" != "documentation" ] && [ "$branch" != "main" ]; then
                 git checkout $branch
