@@ -5,25 +5,23 @@ on:
     branches:
       - documentation
 
-env:
-  REPO: https://HoangNguyen55:${{secrets.GITHUB_TOKEN}}@github.com/HoangNguyen55/A.I.D.A.git
-
 jobs:
   merge-docs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
     - name: Merge Docs into All Branches
       run: |
-        git clone ${{env.REPO}} tmp
-        cd tmp
         git config --local user.name "Automerge bot"
         git config --local user.email "bot@example.com"
-        
+
         for branch in $(git for-each-ref --format='%(refname:short)' | grep "/" | cut -d'/' -f2); do
             if [ "$branch" != "documentation" ] && [ "$branch" != "main" ]; then
                 git checkout $branch
-                git merge origin/documentation --no-edit
+                git rebase origin/documentation
                 git push
             fi
         done
