@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from base64 import b64decode
 from websockets.datastructures import Headers
-from ai.ai import AI
+from .ai.ai import AI
 import asyncio
 from websockets.server import serve
 from argon2 import PasswordHasher
@@ -49,7 +49,7 @@ async def process_request(path: str, header: Headers):
         return (
             HTTPStatus.UNAUTHORIZED,
             {"WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'},
-            b"Authorization field is missing",
+            b"Authorization field is missing or unparseable",
         )
 
     match path:
