@@ -1,13 +1,13 @@
 import logging
 import sqlite3
-from connect_db import read_db_config
+from .connect_db import read_db_config
 
 
 class Aida_DB:
     def __init__(self):
         self.db_config = read_db_config()  # SQLite database file
-        self.conn = None
-        self.cursor = None
+        self.conn: sqlite3.Connection
+        self.cursor: sqlite3.Cursor
         self.connect_to_database()
 
     def connect_to_database(self) -> None:
@@ -18,7 +18,7 @@ class Aida_DB:
             logging.critical(f"Something went wrong: {e}")
 
     def create_pending_users_table(self) -> None:
-        """ Creates a 'pending_users' table in the database if it doesn't already exist. """
+        """Creates a 'pending_users' table in the database if it doesn't already exist."""
         query = """
                 CREATE TABLE IF NOT EXISTS pending_users (
                     id_pending_users INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,7 +55,7 @@ class Aida_DB:
     def add_pending_user(self, username: str, password: str, email: str) -> None:
         try:
             self.cursor.execute(
-                "INSERT INTO aida_admin_app_pendinguser (username, password, email) VALUES (?, ?, ?)",
+                "INSERT INTO pending_users (username, password, email) VALUES (?, ?, ?)",
                 (username, password, email),
             )
             self.conn.commit()
@@ -104,7 +104,9 @@ class Aida_DB:
             except sqlite3.Error as e:
                 logging.error(f"Error deleting user: {e}")
         else:
-            raise Exception(f"Error deleting the user: User {username}, {email} was not found")
+            raise Exception(
+                f"Error deleting the user: User {username}, {email} was not found"
+            )
 
     def approve_pending_user(self, username: str, email: str) -> None:
         """To approve a pending user. The user will be removed from pending users db and moved to main db"""
