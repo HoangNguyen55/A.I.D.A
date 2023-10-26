@@ -2,7 +2,7 @@
 
 ## Team report
   ### Goals from last week:
-  - Mikheil:
+  - Mikheil: Should've started working on the client side, but couldn't. 
             
   - Liam: work on the client
             
@@ -24,7 +24,7 @@
   - Xiang: Model testing issue in .ipynb file, works fine in Google Colab.
         
   ### Plan for next week:
-  - Mikheil:
+  - Mikheil: I will be working on the client side, to send and receive requests and data using websockets. I will also add test cases for the admin page.
             
   - Liam: Work on integrating WebSockets with Django using a guide from the WebSockets webpage.
             
