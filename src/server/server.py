@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from base64 import b64decode
 from websockets.datastructures import Headers
-from .ai.ai import AI
+from .ai import AI
 import asyncio
 from websockets.server import serve
 from argon2 import PasswordHasher
