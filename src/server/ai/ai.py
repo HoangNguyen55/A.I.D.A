@@ -17,7 +17,12 @@ class _AI:
             return
 
         config = AutoConfig.from_pretrained(
-            model_path, rope_scaling={}  # llama 2 specific? optimization setting
+            model_path,
+            # torch_dtype=torch.bfloat16, # use bfloat 16 when training
+            rope_scaling={
+                "type": "dynamic",
+                "factor": 2.0,
+            },
         )
         # TODO add some more optins, 4 bits quantizations, etc...
         self.model = AutoModelForCausalLM.from_pretrained(
