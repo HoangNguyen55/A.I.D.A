@@ -24,6 +24,7 @@ jobs:
             if [ "$branch" != "documentation" ] && [ "$branch" != "main" ]; then
                 git checkout $branch
                 git rebase origin/documentation
+                git pull --rebase
                 git push
             fi
         done
