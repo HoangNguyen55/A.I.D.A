@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from base64 import b64decode
 from websockets.datastructures import Headers
-from ai import AI
+from .ai.ai import AI
 import asyncio
 from websockets.server import serve
 from argon2 import PasswordHasher
@@ -10,7 +10,6 @@ from argon2.exceptions import VerifyMismatchError
 ADDRESS = "localhost"
 PORT = 5172
 PASSHASH = PasswordHasher()
-ai: AI
 
 
 def login(username: str, password: str):
@@ -50,7 +49,7 @@ async def process_request(path: str, header: Headers):
         return (
             HTTPStatus.UNAUTHORIZED,
             {"WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'},
-            b"Authorization field is missing",
+            b"Authorization field is missing or unparseable",
         )
 
     match path:
@@ -67,7 +66,7 @@ async def handler(websocket):
     # i.e system prompts, etc...
 
     async for message in websocket:
-        response = ai.feed_input(message)
+        response = AI.feed_input(message)
 
         await websocket.send(response)
 
@@ -79,5 +78,4 @@ async def main():
 
 if __name__ == "__main__":
     # TODO start AI here
-    ai = AI("/model")
     asyncio.run(main())

@@ -2,29 +2,7 @@
 
 ## Team report
   ### Goals from last week:
-  -  Mikheil: Start to work on the client
-
-  - Liam: work with Mikheil
-  
-  - Hoang: write database test cases
-  
-  - Zach: use google api
-  
-  - Xiang: Work with either Mikail or Zach
-  
-  ### Progress:
-  - Mikheil: 
-
-  - Liam: get aida-admin running locally
-
-  - Hoang: write a lot of words in design
-
-  - Zach: Create web scraper WIP
-
-  - Xiang: run LLM in school computer
-        
-  ### Plan for next week:
-  - Mikheil:
+  - Mikheil: Should've started working on the client side, but couldn't. 
             
   - Liam: work on the client
             
@@ -33,34 +11,52 @@
   - Zach: finish the AAER search
             
   - Xiang: finetune LLM
+  
+  ### Progress:
+  - Mikheil: 
+
+  - Liam: Read the documentation but hasn't used it.
+
+  - Hoang: Restructured code and added database test cases.
+
+  - Zach: Started integrating Rust clap framework for terminal commands and improved HTML link scraping.
+
+  - Xiang: Model testing issue in .ipynb file, works fine in Google Colab.
+        
+  ### Plan for next week:
+  - Mikheil: I will be working on the client side, to send and receive requests and data using websockets. I will also add test cases for the admin page.
+            
+  - Liam: Work on integrating WebSockets with Django using a guide from the WebSockets webpage.
+            
+  - Hoang: Run AI on a school machine and provide it with input.
+            
+  - Zach: Complete Clap framework integration this week, with plans to improve the href value scraper and enable recursive searching for more text on the best website.
+            
+  - Xiang: Address the "generate new query" issue and fine-tuning something.
 
 ## Contributions of individual team members
 
   ### Goals from last week:
   - Mikheil: Work on the client
-  - Liam: Work with Mikail on the admin website
-  - Hoang:
-    - Write more test cases for the websocket server
-    - Sending server input to the AI
-    - Write interpreter for AAER
-  - Zach: Implement google API
-  - Xiang: Joing either zach or mikail and help them with their part of the project  
+  - Liam: work on the client
+  - Hoang: write database test cases
+  - Zach: finish the AAER search
+  - Xiang: finetune LLM
   
   ### Progress:
   - Mikheil: 
-  - Liam: get aida-admin running locally
-  - Hoang: work with everyone and wrote design, guidelines, documentation
-  - Zach: Created a stable working version of the Google web scraper, links are currently disabled due to a faulty selector. Also added custom headers to bypass the bot detection. Program is fully testable via user input.
-  - Xiang: 
-    1. Using SSH to run school PC on my own machine with School VPN, it was not successful running because the school VPN is broken.  
-    2. Install the LLM on School PC and test it was working.
+  - Liam: looking at the getting started documentation and then doing nothing with it, not even experimenting in my own time with the given code as of now.
+  - Hoang: Move the codes around so that the structure makes more sense, create some test cases for the database
+  - Zach: Began work on integrating rust clap framework to allow the program to be run via terminal commands (--search "sdfasdfsdf" -e -url). Also continued searching for the best solution to scraping HTML links and href            values using the current selector.
+  - Xiang: After doing more testing of the model I found that when generating a new query it got stuck forever, not generating a new query. Everything works fine in Google Collab but is in .ipynb file.
 
   ### Plan for next week:
   - Mikheil:
-  - Liam: start to work on the client with websocket
-  - Hoang:
-    - Write more test cases for the websocket server
-    - Sending server input to the AI
-    - Write interpreter for AAER
-  - Zach: Find a working selector to scrape the html links from search results, and add an option to retrieve text information from that page. Also,  rewrite the program into a callable function with the search query as the parameter
-  - Xiang: Finetune the LLM with useful dataset found on HuggingFace and create my own format with our own data to Finetune the LLM as well
+  - Liam: Attempt to integrate websockets with Django. It's one of the how-to guides on the Websockets webpage.
+  - Hoang: Run the AI on the school machine, and feed it input.
+  - Zach: Clap framework integration should be complete by the end of this week, as testing for the AI is nearly ready. A stretch goal is to fix the href value scraper and allow for a recursive search into the bestwebsite           "match" and scrape more text from the target.
+  - Xiang: Fix the generate new query issue. And finetune.
+
+  ### Questions for Nate:
+  - Clarification on Slurm
+  - Update on accessing school machines from home?
