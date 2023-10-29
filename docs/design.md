@@ -297,6 +297,23 @@ Transformer: Easy inferencing LLMs
 - CI/CDer
     - set up ci/cd
 
+## Testing
+- Infrastructure: Pytest
+    - Justification: its easy
+- How to add new test: add a python file with the name `test_*.py` inside the `tests` folder
+- CI service: Github actions, linked via github
+    - Justification: We are already using github
+
+|Pros                       |Cons                                               |
+|-                          |-                                                  |
+|We already using it        |Resource limitation (2000 minutes)                 | 
+|Its easy                   |No easy way to test github action before pushing   |
+|                           |Provided machine isn't the best                    |
+|                           |Storage limitation (512 MB)                        |
+
+- Which test will be execute: all the test
+- Triggers: Push, Merge
+
 ## Risks
 
 1. Not having access to a powerful enough computer for running the app:
