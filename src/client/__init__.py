@@ -1,23 +1,14 @@
-from .server import start_server
-from .ai import AI
+from .client import start_client
 
 
 def main(args=None):
     import argparse
     import logging
     import asyncio
-    import pathlib
 
     parser = argparse.ArgumentParser(
         prog=__name__,
-        description="Start the websocket server for clients to connect to.",
-    )
-    parser.add_argument(
-        "-m",
-        "--model-path",
-        type=pathlib.Path,
-        required=True,
-        help="Path to Llama-2 huggingface model",
+        description="Connect to an AIDA websocket server.",
     )
     parser.add_argument("-p", "--port", type=int, default=6342)
     parser.add_argument("-a", "--address", type=str, default="localhost")
@@ -27,14 +18,15 @@ def main(args=None):
 
     if options.verbose == 1:
         log_level = logging.INFO
-    elif options.vervose >= 2:
+    elif options.verbose >= 2:
         log_level = logging.DEBUG
     else:
         log_level = logging.WARNING
 
     logging.basicConfig(level=log_level)
     # AI.start(options.model_path)
-    asyncio.run(start_server(options.address, options.port))
+    uri = f"ws://{options.address}:{options.port}"
+    asyncio.get_event_loop().run_until_complete(start_client(uri, "/login"))
 
 
 if __name__ == "__main__":

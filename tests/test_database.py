@@ -1,4 +1,4 @@
-from src.server.database.aida_db_main import Aida_DB
+from server.database.aida_db_main import Aida_DB
 
 database = Aida_DB()
 database.create_pending_users_table()

@@ -12,16 +12,23 @@ class _AI:
         self.tokenizer: Any = None
 
     def start(self, model_path: PathLike | str):
+        logging.info(f"Starting the AI at '{model_path}'")
         if self.started:
             logging.warn("Stop the currently running AI before starting a new one.")
             return
 
         config = AutoConfig.from_pretrained(
-            model_path, rope_scaling={}  # llama 2 specific? optimization setting
+            model_path,
+            # torch_dtype=torch.bfloat16, # use bfloat 16 when training
+            rope_scaling={
+                "type": "dynamic",
+                "factor": 2.0,
+            },
+            local_files_only=True,
         )
         # TODO add some more optins, 4 bits quantizations, etc...
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_path, config=config, local_files_only=True
+            model_path, config=config, local_files_only=True, device_map="auto"
         )
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.started = True
@@ -39,10 +46,13 @@ class _AI:
             return ""
         # https://huggingface.co/docs/transformers/v4.33.0/en/llm_tutorial#common-pitfalls
         # TODO add token streaming
-        input = self.tokenizer(system_prompt + prompt, return_tensors="pt").to("cuda")
+        input = self.tokenizer(system_prompt + prompt, return_tensors="pt").to("cuda:0")
+        logging.debug(input)
         generated_ids = self.model.generate(**input)
-        output = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
-        return output[0]
+        logging.debug(generated_ids)
+        output = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
+        logging.debug(output)
+        return output
 
 
 AI = _AI()
