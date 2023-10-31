@@ -7,7 +7,7 @@ if [ ! -d ".venv" ]; then
     [[ "$confirm" == [yY]* ]] || exit 0
 
     echo "Creating virtual environment"
-    python3 -m venv .venv
+    python3 -m venv .venv || virtualenv -p python3 .venv
 
     source .venv/bin/activate
     echo "Installing dependencies using pip"
