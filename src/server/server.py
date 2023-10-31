@@ -1,4 +1,5 @@
 from http import HTTPStatus
+import logging
 from base64 import b64decode
 from websockets.datastructures import Headers
 from .ai import AI
@@ -7,16 +8,14 @@ from websockets.server import serve
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 
-ADDRESS = "localhost"
-PORT = 5172
-PASSHASH = PasswordHasher()
+_PASSHASH = PasswordHasher()
 
 
-def login(username: str, password: str):
+def _login(username: str, password: str):
     # TODO implement data fetching for authorization
     hash = "$argon2id$v=19$m=65536,t=3,p=4$YzqRu34w0ZDZ9oF60Xqy1A$pMNUJ57zWywfRs8sNXTDii9BC1FyqlSNnt3bl+0R77U"
     try:
-        PASSHASH.verify(hash, password)
+        _PASSHASH.verify(hash, password)
     except VerifyMismatchError:
         return (
             HTTPStatus.UNAUTHORIZED,
@@ -27,8 +26,8 @@ def login(username: str, password: str):
     return None
 
 
-def signup(username: str, password: str):
-    hashed_pass = PASSHASH.hash(password)
+def _signup(username: str, password: str):
+    hashed_pass = _PASSHASH.hash(password)
     # put it in a database of awaiting approval
 
     return (
@@ -39,7 +38,7 @@ def signup(username: str, password: str):
 
 
 # TODO implement TLS (dont really need it rn tho)
-async def process_request(path: str, header: Headers):
+async def _process_request(path: str, header: Headers):
     try:
         authb64 = header["Authorization"].split(" ")[-1]
         auth = b64decode(authb64).decode("utf-8").split(":")
@@ -54,28 +53,24 @@ async def process_request(path: str, header: Headers):
 
     match path:
         case "/login":
-            return login(username, password)
+            return _login(username, password)
         case "/signup":
-            return signup(username, password)
+            return _signup(username, password)
         case _:
             return (HTTPStatus.NOT_FOUND, {}, b"Path does not exist")
 
 
-async def handler(websocket):
+async def _handler(websocket):
     # TODO get user specific AI related settings
     # i.e system prompts, etc...
 
     async for message in websocket:
+        logging.info(f"Message recieved: {message}")
         response = AI.feed_input(message)
-
+        logging.info(f"AI responses: {message}")
         await websocket.send(response)
 
 
-async def main():
-    async with serve(handler, ADDRESS, PORT, process_request=process_request):
+async def start_server(address: str, port: int):
+    async with serve(_handler, address, port, process_request=_process_request):
         await asyncio.Future()
-
-
-if __name__ == "__main__":
-    # TODO start AI here
-    asyncio.run(main())
