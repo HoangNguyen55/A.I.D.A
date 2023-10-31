@@ -1,13 +1,27 @@
 A.I.D.A, Artificial Intelligence Digital Assistant.
 
+***Linux only tutorial for now***
+
 # Prerequisites
+Make sure you have CUDA installed
 
-## Windows 11
-- [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) **Use WSL 2 Backend**
-    
-## Linux (Debian)
-- [NVIDIA CUDA Toolkit](https://wiki.debian.org/NvidiaGraphicsDrivers#CUDA)
-- [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
-- [Docker Desktop](https://docs.docker.com/desktop/install/debian/)
-**OR** [Docker Engine](https://docs.docker.com/engine/install/debian/#install-using-the-repository)
+- [Arch linux](https://wiki.archlinux.org/title/GPGPU#CUDA)
+- [Debian](https://wiki.debian.org/NvidiaGraphicsDrivers#Prerequisites)
 
+# Quick Start
+Clone the repository:
+```
+git clone --depth 1 https://github.com/HoangNguyen55/A.I.D.A
+cd A.I.D.A
+```
+
+Run the scripts:
+
+```
+./start-server.sh 'path/to/your/llama2/model'
+```
+
+Then on another terminal
+
+```
+./start-client.sh
