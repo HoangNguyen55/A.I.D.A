@@ -49,10 +49,8 @@ class _AI:
         input = self.tokenizer(system_prompt + prompt, return_tensors="pt").to("cuda:0")
         logging.debug(input)
         generated_ids = self.model.generate(**input)
-        logging.debug(generated_ids)
-        output = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
-        logging.debug(output)
-        return output
+        output = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
+        return " ".join(output)
 
 
 AI = _AI()
