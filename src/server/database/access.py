@@ -3,7 +3,7 @@ import logging
 import sqlite3
 
 
-class DB_Access:
+class DBAccess:
     """
     A class for accessing a SQLite database and performing user-related operations.
 
