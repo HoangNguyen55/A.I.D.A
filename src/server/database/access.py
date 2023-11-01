@@ -65,7 +65,7 @@ class DB_Access:
         """
         try:
             self._cursor.execute(
-                f"SELECT uuid, username, password FROM users WHERE email = {email}"
+                f"SELECT uuid, username, password FROM users WHERE email = ?", (email)
             )
             data = self._cursor.fetchone()
             if data:
@@ -86,7 +86,9 @@ class DB_Access:
             Union[None, str]: The system prompt as a string if found, or None if not found.
         """
         try:
-            self._cursor.execute(f"SELECT system_prompt FROM users WHERE uuid = {uuid}")
+            self._cursor.execute(
+                f"SELECT system_prompt FROM users WHERE uuid = ?", (uuid)
+            )
             system_prompt = self._cursor.fetchone()[0]
             if system_prompt:
                 return system_prompt
