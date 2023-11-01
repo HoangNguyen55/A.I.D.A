@@ -1,6 +1,7 @@
 import logging
 import sqlite3
-from .connect_db import read_db_config
+from connect_db import read_db_config
+import uuid
 
 
 class Aida_DB:
@@ -21,7 +22,7 @@ class Aida_DB:
         """Creates a 'pending_users' table in the database if it doesn't already exist."""
         query = """
                 CREATE TABLE IF NOT EXISTS pending_users (
-                    id_pending_users INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id_pending_users VARCHAR(100) PRIMARY KEY,
                     firstname VARCHAR(100),
                     lastname VARCHAR(100), 
                     username VARCHAR(100) UNIQUE, 

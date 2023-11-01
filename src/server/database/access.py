@@ -115,3 +115,5 @@ class DB_Access:
             self._conn.commit()
         except sqlite3.Error as e:
             logging.error(f"Error adding a new user: {e}")
+
+
