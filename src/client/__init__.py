@@ -13,6 +13,8 @@ def main(args=None):
     parser.add_argument("-p", "--port", type=int, default=6342)
     parser.add_argument("-a", "--address", type=str, default="localhost")
     parser.add_argument("-v", "--verbose", action="count", default=0)
+    parser.add_argument("--username", type=str)
+    parser.add_argument("--password", type=str)
 
     options = parser.parse_args(args)
 
