@@ -1,6 +1,7 @@
 from configparser import ConfigParser
 import logging
 import sqlite3
+from .error import UserDoesNotExist
 
 
 class DBAccess:
@@ -14,7 +15,7 @@ class DBAccess:
         db_path (str): The path to the SQLite database or a .ini file containing the database path.
 
     Methods:
-        get_user(email: str) -> tuple[str, str, str] | None:
+        get_user(email: str) -> tuple[str, str, str]:
             Retrieve user information based on their email address.
 
         get_user_system_prompt(uuid: str) -> None | str:
@@ -52,17 +53,20 @@ class DBAccess:
             logging.critical(f"Error connecting to database: {e}")
             exit(1)
 
-    def get_user(self, email: str) -> tuple[str, str, str] | None:
+    def get_user(self, email: str) -> tuple[str, str, str]:
         """
-        Retrieve user information from the database based on their email.
+        Retrieve user information based on their email address.
 
         Args:
             email (str): The email address of the user to retrieve.
 
         Returns:
-            Union[tuple[str, str, str], None]: A tuple containing user information
-            (uuid, username, password) if the user is found, or None if not found.
+            tuple[str, str, str]: A tuple containing user information (UUID, username, password).
+
+        Raises:
+            UserDoesNotExist: If the user with the provided email does not exist in the database.
         """
+
         try:
             self._cursor.execute(
                 f"SELECT uuid, username, password FROM users WHERE email = ?", (email)
@@ -73,7 +77,7 @@ class DBAccess:
         except sqlite3.Error as e:
             logging.error(f"Error getting user: {e}")
 
-        return None
+        raise UserDoesNotExist
 
     def get_user_system_prompt(self, uuid: str) -> None | str:
         """
@@ -83,7 +87,7 @@ class DBAccess:
             uuid (str): The unique user identifier (UUID) to retrieve the system prompt for.
 
         Returns:
-            Union[None, str]: The system prompt as a string if found, or None if not found.
+            str: The system prompt as a string
         """
         try:
             self._cursor.execute(
@@ -95,7 +99,7 @@ class DBAccess:
         except sqlite3.Error as e:
             logging.error(f"Error getting system prompt: {e}")
 
-        return None
+        return ""
 
     def add_user_pending_approve(self, username, password, email) -> None:
         """
