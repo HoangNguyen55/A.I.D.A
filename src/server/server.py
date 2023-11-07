@@ -1,76 +1,81 @@
-from http import HTTPStatus
-import logging
-from base64 import b64decode
-from websockets.datastructures import Headers
+import sys
+from websockets.frames import CloseCode
+from websockets.typing import Data
 from .ai import AI
+from .database.access import DBAccess
+from .error import MessageTooBigError
+from .datatype import ConnectionType, Credentials, RecieveData
+import logging
+import json
 import asyncio
-from websockets.server import serve
+import secrets
+from websockets.server import WebSocketServerProtocol, serve
 from argon2 import PasswordHasher
-from argon2.exceptions import VerifyMismatchError
+from argon2.exceptions import VerificationError, VerifyMismatchError
 
-_PASSHASH = PasswordHasher()
+PASSHASH = PasswordHasher()
+DB = DBAccess("db_config.ini")
+
+# 1 mebibyte
+MAX_DATA_SIZE = 1048576
 
 
-def _login(username: str, password: str):
-    # TODO implement data fetching for authorization
-    hash = "$argon2id$v=19$m=65536,t=3,p=4$YzqRu34w0ZDZ9oF60Xqy1A$pMNUJ57zWywfRs8sNXTDii9BC1FyqlSNnt3bl+0R77U"
+def check_data(data: Data) -> str:
+    if sys.getsizeof(data) > MAX_DATA_SIZE:
+        raise MessageTooBigError("Message are unparseable")
+    if not isinstance(data, str):
+        raise NotImplementedError("Only string are accept")
+
+    return data
+
+
+async def handle_connection(websocket: WebSocketServerProtocol):
+    # the first message to recieve should be credentials
     try:
-        _PASSHASH.verify(hash, password)
-    except VerifyMismatchError:
-        return (
-            HTTPStatus.UNAUTHORIZED,
-            {"WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'},
-            b"Account does not exist",
+        logging.info("Recieving new connection, trying to authenticate")
+        data = check_data(await websocket.recv())
+        creds = Credentials(data)
+        logging.debug(f"New connection purpose: {creds.connection_type}")
+
+        if creds.connection_type == ConnectionType.LOGIN:
+            # user_data = DB.get_user(creds.email)
+            # PASSHASH.verify(creds.password, user_data[2])
+            logging.debug(f"Connection logged in with name: {creds.email}")
+            random_token = secrets.token_urlsafe()
+            await websocket.send(random_token)
+            await handle_data(websocket, random_token)
+
+        elif creds.connection_type == ConnectionType.SIGNUP:
+            logging.debug(f"New connection is signing up with the email: {creds.email}")
+            await websocket.close(
+                CloseCode.TRY_AGAIN_LATER,
+                "Sign up complete, please wait for admin approval",
+            )
+        else:
+            raise NotImplementedError("Connection type unknown")
+    except json.JSONDecodeError or KeyError or VerificationError as err:
+        logging.info(f"Connection fail to authenticate: {str(err)}")
+        await websocket.close(
+            CloseCode.INVALID_DATA,
+            "Wrong password or account not yet approves",
         )
-
-    return None
-
-
-def _signup(username: str, password: str):
-    hashed_pass = _PASSHASH.hash(password)
-    # put it in a database of awaiting approval
-
-    return (
-        HTTPStatus.ACCEPTED,
-        {},
-        b"Your sign up request have been recieved\nPlease wait for admin approval",
-    )
+    except NotImplementedError as err:
+        logging.info(f"Connection fail to authenticate: {str(err)}")
+        await websocket.close(CloseCode.UNSUPPORTED_DATA, str(err))
+    except MessageTooBigError as err:
+        logging.info(f"Connection fail to authenticate: {str(err)}")
+        await websocket.close(CloseCode.MESSAGE_TOO_BIG, str(err))
 
 
-# TODO implement TLS (dont really need it rn tho)
-async def _process_request(path: str, header: Headers):
-    try:
-        authb64 = header["Authorization"].split(" ")[-1]
-        auth = b64decode(authb64).decode("utf-8").split(":")
-        username = auth[0]
-        password = auth[1]
-    except KeyError:
-        return (
-            HTTPStatus.UNAUTHORIZED,
-            {"WWW-Authenticate": 'Basic realm="Access To A.I.D.A"'},
-            b"Authorization field is missing or unparseable",
-        )
-
-    match path:
-        case "/login":
-            return _login(username, password)
-        case "/signup":
-            return _signup(username, password)
-        case _:
-            return (HTTPStatus.NOT_FOUND, {}, b"Path does not exist")
-
-
-async def _handler(websocket):
-    # TODO get user specific AI related settings
-    # i.e system prompts, etc...
-
+async def handle_data(websocket: WebSocketServerProtocol, token: str):
     async for message in websocket:
-        logging.info(f"Message recieved: {message}")
-        response = AI.feed_input(message)
-        logging.info(f"AI responses: {message}")
-        await websocket.send(response)
+        # data = RecieveData(check_data(message))
+        # logging.info(f"Message recieved: {data.message}")
+        # response = AI.feed_input(data.message)
+        # logging.info(f"AI responses: {message}")
+        await websocket.send(token)
 
 
 async def start_server(address: str, port: int):
-    async with serve(_handler, address, port, process_request=_process_request):
+    async with serve(handle_connection, address, port):
         await asyncio.Future()
