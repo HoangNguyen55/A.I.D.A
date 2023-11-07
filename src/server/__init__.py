@@ -21,6 +21,7 @@ def main(args=None):
     )
     parser.add_argument("-p", "--port", type=int, default=6342)
     parser.add_argument("-a", "--address", type=str, default="localhost")
+    parser.add_argument("--start-ai", type=bool, default=False)
     parser.add_argument("-v", "--verbose", action="count", default=0)
 
     options = parser.parse_args(args)
@@ -33,7 +34,9 @@ def main(args=None):
         log_level = logging.WARNING
 
     logging.basicConfig(level=log_level)
-    # AI.start(options.model_path)
+    if options.start_ai:
+        AI.start(options.model_path)
+
     asyncio.run(start_server(options.address, options.port))
 
 
