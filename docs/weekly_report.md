@@ -2,28 +2,6 @@
 
 ## Team report
   ### Goals from last week:
-  - Mikheil: I will be working on the client side, to send and receive requests and data using WebSockets. I will also add test cases for the admin page.
-            
-  - Liam: Work on integrating WebSockets with Django using a guide from the WebSockets webpage.
-            
-  - Hoang: Run AI on a school machine and provide it with input.
-            
-  - Zach: Complete Clap framework integration this week, with plans to improve the href value scraper and enable recursive searching for more text on the best website.
-            
-  - Xiang: Address the "generate new query" issue and fine-tune something.
-  
-  ### Progress:
-  - Mikheil: Implemented Websockets successfully.
-
-  - Liam: Integrated Django with WebSockets, realizing it was better suited for the backend. Add migrations in CI/CD when code is merged (as an idea in the future).
-
-  - Hoang: Made the client and server into runnable Python modules, fixed up AI code, and confirmed it runs successfully.
-
-  - Zach: Found integrating Clap caused confusion and instead created a configuration for command line user input, though the logic is still in progress.
-
-  - Xiang: Worked with Nate to fix school PCs to run on the right GPU, which sped up code execution and output generation.
-
-  ### Plan for next week:
   - Mikheil: Make adjustments to pages. Also, seek out more tasks.
 
   - Liam: Work on the client by learning WebSockets and integrating asyncio.
@@ -33,30 +11,51 @@
   - Zach: Complete Clap integration so the AI or users can interact at the command line.
 
   - Xiang: Start finetuning the language model with open source and custom data.
+  
+  ### Progress:
+  - Mikheil: Made some database and admin page adjustments but needs more time to improve functionality.
+
+  - Liam: Still unsure about implementing the client functionality and where it goes syntactically, despite having an idea now.
+
+  - Hoang: Added command line arguments and config file support for the WebSocket server.
+
+  - Zach: Converted the program to run on the command line with arguments and began work on scraping text from selected sites.
+
+  - Xiang: Tried to set up the dataset to finetune the LLMs but ran into errors. Need to download the dataset locally to train and finetune it.
+
+  ### Plan for next week:
+  - Mikheil: Work with Liam on implementing the client side, as well as updating documentation and instructions for the Django database in preparation for peer reviews.
+
+  - Liam: Aim to finally implement the client functionality, which has been a weekly goal.
+
+  - Hoang: Finish adding config file support and do overall cleanup before the alpha release.
+
+  - Zach: Complete the text parser that scrapes and writes site content to a file.
+
+  - Xiang: Debug the script, download the dataset locally, and train and finetune the models before the alpha release
 
 ## Contributions of individual team members
 
   ### Goals from last week:
-  - Mikheil: Impelement websockets
-  - Liam: Attempt to integrate WebSockets with Django. It's one of the how-to guides on the WebSockets webpage.
-  - Hoang: Run the AI on the school machine, and feed it input.
-  - Zach: Clap framework integration should be complete by the end of this week, as testing for the AI is nearly ready. A stretch goal is to fix the href value scraper and allow for a recursive search into the best            website "match" and scrape more text from the target.
-  - Xiang: Fix the generate new query issue. And finetune.
-  
-  ### Progress:
-  - Mikheil: Implemented Websockets successfully.
-  - Liam: Last week's goal was to integrate Django with WebSockets. I now know that's a job for the backend, and I'm the frontend. Also, it's currently not needed. At least I had the idea to make migrations and migrate in     the CI/CD, however, it is only when it is merged.
-  - Hoang: Make client and server an actual runnable Python module, fix up AI codes, and test to see if it runs (it does)
-  - Zach: Clap Framework integration was proven to be confusing to implement with the current program. Configuration for command line user input was created but the actual logic function has not yet been completed.
-  - Xiang: Hoang and I talked with Nate about fixing the school PC not running on the Correct GPU generating, the output is taking forever and after the problem was fixed, we fixed the code was able to run successfully on     the school PC feeding the input and generating the output very quickly.
-
-  ### Plan for next week:
   - Mikheil: Make some adjustments to the database and  admin page. After that, I will discuss with my team so I am assigned to a new task.
   - Liam: This week's goal is to work on the client, this is done by learning part of the websockets documentation and then integrating asyncio on the websockets documentation.
   - Hoang: Fix up server code to take into account cookies, login, signup, etc...
   - Zach: Complete Clap integration to be test-ready for AI to access (Or users to interact with on a command line level).
   - Xiang: Start to finetune the LLM with useful open-source data and our own data.
+  
+  ### Progress:
+  - Mikheil: Made adjustments to the database and admin page, I still need more time to improve functionality, 
+  - Liam: Oh dear, last week's goal was to implement client? I have an idea now but still am generally unsure where it goes. Like, syntactically.
+  - Hoang: add command line arguments for Websocket server, also add in config file support.
+  - Zach: Converted the program to run on the command line with arguments, and also began work on scraping text from selected sites.
+  - Xiang: Try to set up the dataset to finetune with llama 2 LLM using peft, but the script is kind of broken and causes a whole bunch of errors. Need to physically download the dataset on the local machine in order to              train it and finetune it.
+    
+  ### Plan for next week:
+  - Mikheil: Work with Liam to implement client side, and prepare the project for peer reviews i.e. update Django and DB documentation and instructions.
+  - Liam: So it remains the weekly goal. This time, I intend to implement it. For real.
+  - Hoang: Finish adding in config file support and clean up before the alpha is ready.
+  - Zach: Finish work on text parser for the site (currently only writes the raw HTML of the site to a file)
+  - Xiang: Fix the script and download the dataset physically on the local machine to train and finetune before the alpha release
 
   ### Questions for Nate:
-  - Clarification on Alpha version requirements
   - Update on the port forwarding issue?
