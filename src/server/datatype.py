@@ -30,11 +30,5 @@ class Credentials:
 
 
 @dataclass
-class RecieveData:
-    user_id: str
-    message: str
-
-    def __init__(self, data: str) -> None:
-        data_json = json.loads(data)
-        self.user_id = data_json["user_id"]
-        self.message = data_json["message"]
+class UserData:
+    system_prompt: str
