@@ -7,13 +7,8 @@ class PendingUser(models.Model):
     password = models.CharField(max_length=100)
     email = models.EmailField()
 
-
     def __str__(self):
         return self.username
 
-    def save(self, *args, **kwargs):
-        # Hash the password before saving
-        self.password = make_password(self.password)
-        super().save(*args, **kwargs)
 
 
