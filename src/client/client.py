@@ -5,12 +5,12 @@ import websockets.exceptions
 
 
 async def start_client(uri: str, end_point: str):
-    authorizations = {"Authorization": "Basic dXNlcm5hbWU6cGFzc3dvcmQ="}
-    # authorizations = {"Authorization": ""}
-
-    async with client.connect(
-        uri + end_point, extra_headers=authorizations
-    ) as websocket:
+    async with client.connect(uri + end_point) as websocket:
+        await websocket.send(
+            '{"connection_type": "login", "email": "tester@gmail.com", "password": "password"}'
+        )
+        # server should send something back for confirming authenication
+        print(await websocket.recv())
         while True:
             try:
                 prompt = input("Enter your prompt: ")
