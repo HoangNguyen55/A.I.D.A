@@ -3,6 +3,8 @@ from typing import Any
 import logging
 import torch
 from transformers import AutoModelForCausalLM, AutoConfig, AutoTokenizer
+from transformers import pipeline
+
 
 
 class _AI:
@@ -50,9 +52,15 @@ class _AI:
         logging.debug(input)
         generated_ids = self.model.generate(**input)
         logging.debug(generated_ids)
-        output = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
+        output = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
         logging.debug(output)
         return output
 
 
+
+input = "what is 1+1 =?"
+
 AI = _AI()
+aiPath ="/home/xbl5229/llama-2-chat-hf"
+AI.start(aiPath)
+print(AI.feed_input(input))
