@@ -39,9 +39,10 @@ class DBAccess:
             self._cursor.execute(
                 f"SELECT uuid, password FROM users WHERE email = ?", (email,)
             )
-            data = self._cursor.fetchone()
+            data = self._cursor.fetchall()[0]
+            logging.debug(data)
             if data:
-                return data
+                return (data[0], data[1])
         except sqlite3.Error as e:
             logging.error(f"Error getting user: {e}")
 
@@ -65,7 +66,8 @@ class DBAccess:
                 "SELECT username, system_prompt FROM users WHERE uuid = ?",
                 (uuid,),
             )
-            data = self._cursor.fetchone()[0]
+            data = self._cursor.fetchall()[0]
+            logging.debug(data)
             return UserData(*data)
 
         except sqlite3.Error as e:
@@ -111,7 +113,7 @@ class DBAccess:
         try:
             id = str(uuid.uuid4())
             self._cursor.execute(
-                "INSERT INTO users (uuid, username, password, email) VALUES (?, ?, ?)",
+                "INSERT INTO users (uuid, username, password, email) VALUES (?, ?, ?, ?)",
                 (id, username, password, email),
             )
             self._conn.commit()

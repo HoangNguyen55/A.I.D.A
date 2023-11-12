@@ -40,21 +40,27 @@ async def handle_connection(websocket: WebSocketServerProtocol):
 
         if creds.connection_type == ConnectionType.LOGIN:
             uuid, hash_password = DB.get_user_password(creds.email)
-            PASSHASH.verify(creds.password, hash_password)
+            logging.debug(hash_password)
+            PASSHASH.verify(hash_password, creds.password)
             user_data = DB.get_user_data(uuid)
+            if user_data.system_prompt is None:
+                user_data.system_prompt = ""
             logging.debug(f"Connection logged in with name: {creds.email}")
             await handle_data(websocket, user_data)
 
         elif creds.connection_type == ConnectionType.SIGNUP:
             logging.debug(f"New connection is signing up with the email: {creds.email}")
+            hashed_password = PASSHASH.hash(creds.password)
             if CLI_OPTIONS.auto_approve_signup:
-                DB.add_user(creds.username, creds.password, creds.email)
+                DB.add_user(creds.username, hashed_password, creds.email)
                 await websocket.close(
                     CloseCode.TRY_AGAIN_LATER,
                     "Sign up complete, please login again",
                 )
             else:
-                DB.add_user_pending_approve(creds.username, creds.password, creds.email)
+                DB.add_user_pending_approve(
+                    creds.username, hashed_password, creds.email
+                )
                 await websocket.close(
                     CloseCode.TRY_AGAIN_LATER,
                     "Sign up complete, please wait for admin approval",
@@ -73,9 +79,9 @@ async def handle_connection(websocket: WebSocketServerProtocol):
     except MessageTooBigError as err:
         logging.info(f"Connection fail to authenticate: {str(err)}")
         await websocket.close(CloseCode.MESSAGE_TOO_BIG, str(err))
-    except Exception as err:
-        logging.error(f"Unknown error happened: {str(err)}")
-        await websocket.close(CloseCode.INTERNAL_ERROR)
+    # except Exception as err:
+    #     logging.error(f"Unknown error happened: {str(err)}")
+    #     await websocket.close(CloseCode.INTERNAL_ERROR)
 
 
 async def handle_data(websocket: WebSocketServerProtocol, user_data: UserData):
@@ -84,7 +90,8 @@ async def handle_data(websocket: WebSocketServerProtocol, user_data: UserData):
         msg = check_data(message)
         logging.debug(f"Message from {user_data.username} recieved: {msg}")
         response = AI.feed_input(msg, user_data.system_prompt)
-        logging.info(f"AI responses: {response}")
+        logging.debug(f"AI responses: {response}")
+        await websocket.send(response)
 
 
 async def start_server(cli_options: Namespace):
