@@ -4,7 +4,7 @@ from websockets.frames import CloseCode
 from websockets.typing import Data
 from .ai import AI
 from .database import DBAccess
-from .error import MessageTooBigError
+from .error import MessageTooBigError, UserDoesNotExist
 from .datatype import ConnectionType, Credentials, UserData
 import logging
 import json
@@ -61,7 +61,7 @@ async def handle_connection(websocket: WebSocketServerProtocol):
                 )
         else:
             raise NotImplementedError("Connection type unknown")
-    except json.JSONDecodeError or KeyError or VerificationError as err:
+    except (json.JSONDecodeError, KeyError, VerificationError, UserDoesNotExist) as err:
         logging.info(f"Connection fail to authenticate: {str(err)}")
         await websocket.close(
             CloseCode.INVALID_DATA,
