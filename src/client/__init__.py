@@ -13,8 +13,6 @@ def main(args=None):
     parser.add_argument("-p", "--port", type=int, default=6342)
     parser.add_argument("-a", "--address", type=str, default="localhost")
     parser.add_argument("-v", "--verbose", action="count", default=0)
-    parser.add_argument("--username", type=str)
-    parser.add_argument("--password", type=str)
 
     options = parser.parse_args(args)
 
@@ -26,9 +24,8 @@ def main(args=None):
         log_level = logging.WARNING
 
     logging.basicConfig(level=log_level)
-    # AI.start(options.model_path)
     uri = f"ws://{options.address}:{options.port}"
-    asyncio.get_event_loop().run_until_complete(start_client(uri, "/login"))
+    asyncio.get_event_loop().run_until_complete(start_client(uri))
 
 
 if __name__ == "__main__":
