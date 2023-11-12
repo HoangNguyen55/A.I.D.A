@@ -47,11 +47,18 @@ async def handle_connection(websocket: WebSocketServerProtocol):
 
         elif creds.connection_type == ConnectionType.SIGNUP:
             logging.debug(f"New connection is signing up with the email: {creds.email}")
-            # TODO add sign up here
-            await websocket.close(
-                CloseCode.TRY_AGAIN_LATER,
-                "Sign up complete, please wait for admin approval",
-            )
+            if CLI_OPTIONS.auto_approve_signup:
+                DB.add_user(creds.username, creds.password, creds.email)
+                await websocket.close(
+                    CloseCode.TRY_AGAIN_LATER,
+                    "Sign up complete, please login again",
+                )
+            else:
+                DB.add_user_pending_approve(creds.username, creds.password, creds.email)
+                await websocket.close(
+                    CloseCode.TRY_AGAIN_LATER,
+                    "Sign up complete, please wait for admin approval",
+                )
         else:
             raise NotImplementedError("Connection type unknown")
     except json.JSONDecodeError or KeyError or VerificationError as err:
