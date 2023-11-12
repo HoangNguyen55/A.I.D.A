@@ -43,7 +43,7 @@ class _AI:
     def feed_input(self, prompt: str, system_prompt: str = "") -> str:
         if not self.started:
             logging.warn("AI have not been started yet")
-            return ""
+            return "AI have not been started yet"
         # https://huggingface.co/docs/transformers/v4.33.0/en/llm_tutorial#common-pitfalls
         # TODO add token streaming
         input = self.tokenizer(system_prompt + prompt, return_tensors="pt").to("cuda:0")
