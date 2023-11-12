@@ -15,6 +15,8 @@ class DBAccess:
         try:
             self._conn = sqlite3.connect(self.path)
             self._cursor = self._conn.cursor()
+            self._create_user_table()
+            self._create_pending_table()
         except sqlite3.Error as e:
             logging.critical(f"Error connecting to database: {e}")
             exit(1)
