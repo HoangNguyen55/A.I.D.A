@@ -35,10 +35,11 @@ class DBAccess:
     def get_user_data(self, uuid: str) -> UserData:
         try:
             self._cursor.execute(
-                f"SELECT system_prompt FROM users WHERE uuid = ?", (uuid)
+                "SELECT username, system_prompt FROM users WHERE uuid = ?",
+                (uuid),
             )
-            system_prompt = self._cursor.fetchone()[0]
-            return UserData(system_prompt)
+            data = self._cursor.fetchone()[0]
+            return UserData(*data)
 
         except sqlite3.Error as e:
             logging.error(f"Error getting system prompt: {e}")
