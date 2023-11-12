@@ -92,5 +92,5 @@ async def start_server(cli_options: Namespace):
     CLI_OPTIONS = cli_options
     DB = DBAccess(cli_options.db_path)
 
-    async with serve(handle_connection, cli_options.address, cli_options.port):
+    async with serve(handle_connection, cli_options.host_address, cli_options.port):
         await asyncio.Future()

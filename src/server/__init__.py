@@ -99,7 +99,7 @@ def main(args=None):
 
     logging.basicConfig(level=log_level)
     logging.debug(options)
-    if options.start_ai:
+    if options.inference_on_startup:
         AI.start(options.model_path)
 
     asyncio.run(start_server(options))
