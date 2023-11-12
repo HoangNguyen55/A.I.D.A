@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+import uuid
 
 from .datatype import UserData
 from .error import UnknownError, UserDoesNotExist
@@ -36,7 +37,7 @@ class DBAccess:
         """
         try:
             self._cursor.execute(
-                f"SELECT uuid, password FROM users WHERE email = ?", (email)
+                f"SELECT uuid, password FROM users WHERE email = ?", (email,)
             )
             data = self._cursor.fetchone()
             if data:
@@ -44,7 +45,7 @@ class DBAccess:
         except sqlite3.Error as e:
             logging.error(f"Error getting user: {e}")
 
-        raise UserDoesNotExist
+        raise UserDoesNotExist("User does not exist")
 
     def get_user_data(self, uuid: str) -> UserData:
         """
@@ -62,13 +63,13 @@ class DBAccess:
         try:
             self._cursor.execute(
                 "SELECT username, system_prompt FROM users WHERE uuid = ?",
-                (uuid),
+                (uuid,),
             )
             data = self._cursor.fetchone()[0]
             return UserData(*data)
 
         except sqlite3.Error as e:
-            logging.error(f"Error getting system prompt: {e}")
+            logging.error(f"Error getting user data: {e}")
             raise UnknownError("Something unexpected happened")
 
     def add_user_pending_approve(
@@ -108,9 +109,10 @@ class DBAccess:
         UnknownError: If an unexpected error occurs during the insertion process.
         """
         try:
+            id = str(uuid.uuid4())
             self._cursor.execute(
-                "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
-                (username, password, email),
+                "INSERT INTO users (uuid, username, password, email) VALUES (?, ?, ?)",
+                (id, username, password, email),
             )
             self._conn.commit()
         except sqlite3.Error as e:
@@ -133,7 +135,7 @@ class DBAccess:
         self._cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
+                uuid TEXT PRIMARY KEY,
                 username TEXT,
                 email TEXT UNIQUE,
                 password TEXT,
