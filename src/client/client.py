@@ -25,6 +25,7 @@ async def start_client(uri: str):
                     continue
                 except KeyboardInterrupt:
                     await websocket.close()
+                    break
 
 
 async def login(websocket: WebSocketClientProtocol):
