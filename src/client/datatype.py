@@ -3,17 +3,9 @@ from dataclasses import dataclass
 import enum
 
 
-class ConnectionType(enum.StrEnum):
-    LOGIN = "login"
-    SIGNUP = "signup"
-
-    @classmethod
-    def _missing_(cls, value: str):
-        value = value.lower()
-        for member in cls:
-            if member.lower() == value:
-                return member
-        return None
+class ConnectionType(enum.IntEnum):
+    LOGIN = 0
+    SIGNUP = 1
 
 
 @dataclass
