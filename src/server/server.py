@@ -5,14 +5,13 @@ from websockets.typing import Data
 from .ai import AI
 from .database import DBAccess
 from .error import MessageTooBigError
-from .datatype import ConnectionType, Credentials, RecieveData
+from .datatype import ConnectionType, Credentials, UserData
 import logging
 import json
 import asyncio
-import secrets
 from websockets.server import WebSocketServerProtocol, serve
 from argon2 import PasswordHasher
-from argon2.exceptions import VerificationError, VerifyMismatchError
+from argon2.exceptions import VerificationError
 
 CLI_OPTIONS: Namespace
 DB: DBAccess
@@ -40,13 +39,11 @@ async def handle_connection(websocket: WebSocketServerProtocol):
         logging.debug(f"New connection purpose: {creds.connection_type}")
 
         if creds.connection_type == ConnectionType.LOGIN:
-            # TODO get userdata here
-            # user_data = DB.get_user(creds.email)
-            # PASSHASH.verify(creds.password, user_data[2])
+            uuid, hash_password = DB.get_user_password(creds.email)
+            PASSHASH.verify(creds.password, hash_password)
+            user_data = DB.get_user_data(uuid)
             logging.debug(f"Connection logged in with name: {creds.email}")
-            random_token = secrets.token_urlsafe()
-            await websocket.send(random_token)
-            await handle_data(websocket, random_token)
+            await handle_data(websocket, user_data)
 
         elif creds.connection_type == ConnectionType.SIGNUP:
             logging.debug(f"New connection is signing up with the email: {creds.email}")
@@ -74,13 +71,13 @@ async def handle_connection(websocket: WebSocketServerProtocol):
         await websocket.close(CloseCode.INTERNAL_ERROR)
 
 
-async def handle_data(websocket: WebSocketServerProtocol, token: str):
+async def handle_data(websocket: WebSocketServerProtocol, user_data: UserData):
+    await websocket.send(f"Good morning: {user_data.username}")
     async for message in websocket:
-        # data = RecieveData(check_data(message))
-        # logging.info(f"Message recieved: {data.message}")
-        # response = AI.feed_input(data.message)
-        # logging.info(f"AI responses: {message}")
-        await websocket.send(token)
+        msg = check_data(message)
+        logging.debug(f"Message from {user_data.username} recieved: {msg}")
+        response = AI.feed_input(msg, user_data.system_prompt)
+        logging.info(f"AI responses: {response}")
 
 
 async def start_server(cli_options: Namespace):
