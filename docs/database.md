@@ -2,14 +2,14 @@
 <!-- -  | -->
 <!--    | -->
 <!--    | -->
-# Users
-|id     |usrename   |password |admin  |system prompt  |probaly some other stuff that i forgot   |
-| -     |-          |-        |-      |-              |-      | 
-|int    |String     |String   |Bool   |String         | ...   |
-|...    |...        | ...     |...    |...            | ...   |
+# ApprovedUsers
+|id     |usrename   |password |admin  |system prompt  |email   |
+| -     |-          |-        |-      |-              |-       | 
+|UUID    |String     |String  |Bool   |String         |String  |
+|...    |...        | ...     |...    |...            | ...    |
 
-# Pending approval
-|username   |password               |
-|-          |-                      |
-|String     |String                 |
-|...        | ...                   |
+# PendingUsers
+|username   |password               |email
+|-          |-                      |-
+|String     |String                 |String
+|...        | ...                   |...
