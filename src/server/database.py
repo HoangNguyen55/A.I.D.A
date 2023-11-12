@@ -76,3 +76,30 @@ class DBAccess:
         except sqlite3.Error as e:
             logging.error(f"Error adding a new user: {e}")
             raise UnknownError("Something unexpected happened")
+
+    def _create_pending_table(self):
+        self._cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS pending_users (
+                username TEXT,
+                email TEXT PRIMARY KEY,
+                password TEXT
+            )
+            """
+        )
+        self._conn.commit()
+
+    def _create_user_table(self):
+        self._cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY,
+                username TEXT,
+                email TEXT UNIQUE,
+                password TEXT,
+                admin BOOLEAN,
+                system_prompt TEXT
+            )
+            """
+        )
+        self._conn.commit()
