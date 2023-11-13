@@ -6,26 +6,27 @@ from .datatype import Credentials, ConnectionType
 
 
 async def start_client(uri: str):
-    action = getUserAction()
-
     async with client.connect(uri) as websocket:
-        if action == ConnectionType.SIGNUP:
-            await signup(websocket)
-        elif action == ConnectionType.LOGIN:
-            await login(websocket)
+        while True:
+            try:
+                action = getUserAction()
+                if action == ConnectionType.SIGNUP:
+                    await signup(websocket)
+                elif action == ConnectionType.LOGIN:
+                    await login(websocket)
 
-            while True:
-                try:
-                    prompt = input("Enter your prompt: ")
-                    await websocket.send(prompt)
+                prompt = input("Enter your prompt: ")
+                await websocket.send(prompt)
 
-                    response = await websocket.recv()
-                    print("AIDA:", response)
-                except websockets.exceptions.ConnectionClosed:
-                    continue
-                except KeyboardInterrupt:
-                    await websocket.close()
-                    break
+                response = await websocket.recv()
+                print("AIDA:", response)
+            except websockets.exceptions.ConnectionClosed as err:
+                print()
+                print(err)
+                continue
+            except KeyboardInterrupt:
+                await websocket.close()
+                break
 
 
 async def login(websocket: WebSocketClientProtocol):
