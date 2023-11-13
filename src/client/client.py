@@ -6,10 +6,11 @@ from .datatype import Credentials, ConnectionType
 
 
 async def start_client(uri: str):
-    async with client.connect(uri) as websocket:
-        while True:
+    while True:
+        action = getUserAction()
+
+        async with client.connect(uri) as websocket:
             try:
-                action = getUserAction()
                 if action == ConnectionType.SIGNUP:
                     await signup(websocket)
                 elif action == ConnectionType.LOGIN:
@@ -51,6 +52,8 @@ async def signup(websocket: WebSocketClientProtocol):
     email = input("Email: ")
     payload = Credentials(ConnectionType.SIGNUP, username, password, email)
     await websocket.send(str(payload))
+    # connection should terminate
+    await websocket.recv()
 
 
 def getUserAction():
