@@ -1,3 +1,4 @@
+from asyncio import sleep
 import getpass
 from websockets import WebSocketClientProtocol, client
 import websockets.exceptions
@@ -6,27 +7,33 @@ from .datatype import Credentials, ConnectionType
 
 
 async def start_client(uri: str):
+    sleep_time = 1
     while True:
-        async with client.connect(uri) as websocket:
-            action = getUserAction()
-            try:
-                if action == ConnectionType.SIGNUP:
-                    await signup(websocket)
-                elif action == ConnectionType.LOGIN:
-                    await login(websocket)
+        try:
+            async with client.connect(uri) as websocket:
+                action = getUserAction()
+                try:
+                    if action == ConnectionType.SIGNUP:
+                        await signup(websocket)
+                    elif action == ConnectionType.LOGIN:
+                        await login(websocket)
 
-                prompt = input("Enter your prompt: ")
-                await websocket.send(prompt)
+                    prompt = input("Enter your prompt: ")
+                    await websocket.send(prompt)
 
-                response = await websocket.recv()
-                print("AIDA:", response)
-            except websockets.exceptions.ConnectionClosed as err:
-                print()
-                print(err)
-                continue
-            except KeyboardInterrupt:
-                await websocket.close()
-                break
+                    response = await websocket.recv()
+                    print("AIDA:", response)
+                except websockets.exceptions.ConnectionClosed as err:
+                    print()
+                    print(err)
+                    continue
+                except KeyboardInterrupt:
+                    await websocket.close()
+                    break
+        except ConnectionRefusedError:
+            print("Server not started or connection error, trying to reconnect...")
+            await sleep(sleep_time)
+            sleep_time = sleep_time if sleep_time >= 60 else sleep_time * 2
 
 
 async def login(websocket: WebSocketClientProtocol):
