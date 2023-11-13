@@ -98,6 +98,7 @@ async def start_server(cli_options: Namespace):
     global CLI_OPTIONS, DB
     CLI_OPTIONS = cli_options
     DB = DBAccess(cli_options.db_path)
+    logging.info("AIDA websocket server started.")
 
     async with serve(handle_connection, cli_options.host_address, cli_options.port):
         await asyncio.Future()

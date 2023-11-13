@@ -28,7 +28,11 @@ def get_default_data_folder() -> str:
         data_folder = os.path.join(appdata, APP_NAME)
     else:
         logging.warn("Unknown OS, defaulting to current working directory")
-        config_folder = os.getcwd()  # Unsupported platform
+        data_folder = os.getcwd()  # Unsupported platform
+
+    if not os.access(data_folder, os.W_OK | os.X_OK):
+        logging.warn("No write permission, defaulting to current working directory")
+        data_folder = os.getcwd()
 
     if data_folder is not None:
         os.makedirs(data_folder, exist_ok=True)
@@ -46,6 +50,10 @@ def get_default_config_folder() -> str:
     else:
         logging.warn("Unknown OS, defaulting to current working directory")
         config_folder = os.getcwd()  # Unsupported platform
+
+    if not os.access(config_folder, os.W_OK | os.X_OK):
+        logging.warn("No write permission, defaulting to current working directory")
+        config_folder = os.getcwd()
 
     if config_folder:
         os.makedirs(config_folder, exist_ok=True)
