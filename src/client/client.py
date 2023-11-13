@@ -7,9 +7,8 @@ from .datatype import Credentials, ConnectionType
 
 async def start_client(uri: str):
     while True:
-        action = getUserAction()
-
         async with client.connect(uri) as websocket:
+            action = getUserAction()
             try:
                 if action == ConnectionType.SIGNUP:
                     await signup(websocket)
