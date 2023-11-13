@@ -3,9 +3,9 @@ from dataclasses import dataclass
 import enum
 
 
-class ConnectionType(enum.IntEnum):
-    LOGIN = 0
-    SIGNUP = 1
+class ConnectionType(str, enum.Enum):
+    LOGIN = "login"
+    SIGNUP = "signup"
 
 
 @dataclass

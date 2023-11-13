@@ -3,9 +3,9 @@ import enum
 import json
 
 
-class ConnectionType(enum.IntEnum):
-    LOGIN = 0
-    SIGNUP = 1
+class ConnectionType(str, enum.Enum):
+    LOGIN = "login"
+    SIGNUP = "signup"
 
 
 @dataclass

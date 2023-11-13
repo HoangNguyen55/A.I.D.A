@@ -45,6 +45,8 @@ class DBAccess:
                 return (data[0], data[1])
         except sqlite3.Error as e:
             logging.error(f"Error getting user: {e}")
+        except IndexError:
+            raise UserDoesNotExist("User does not exist")
 
         raise UserDoesNotExist("User does not exist")
 
