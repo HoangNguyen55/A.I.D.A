@@ -1,5 +1,8 @@
 A.I.D.A, Artificial Intelligence Digital Assistant.
 
+# PSU STUDENT GO [HERE](./psu-installs/INSTALLATION_INSTRUCTIONS.md)
+
+
 ***Linux only tutorial for now***
 
 # Prerequisites
