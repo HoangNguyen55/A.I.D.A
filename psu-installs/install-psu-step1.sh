@@ -1,5 +1,8 @@
 #!/bin/bash
 
+pipe="/tmp/AIDA_INSTALL_PIPE"
+mkfifo "$pipe.in" "$pipe.out"
+
 slurm_path="/slrmstore/$(whoami)/"
 step_2="$slurm_path/A.I.D.A/psu-installs/install-psu-step2.sh $(whoami)"
 
