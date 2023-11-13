@@ -24,9 +24,8 @@ def main(args=None):
         log_level = logging.WARNING
 
     logging.basicConfig(level=log_level)
-    # AI.start(options.model_path)
     uri = f"ws://{options.address}:{options.port}"
-    asyncio.get_event_loop().run_until_complete(start_client(uri, "/login"))
+    asyncio.get_event_loop().run_until_complete(start_client(uri))
 
 
 if __name__ == "__main__":

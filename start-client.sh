@@ -1,7 +1,5 @@
 #!/bin/bash
 
-path="$1"
-
 if [ ! -d ".venv" ]; then
     read -p "No virtual environment called '.venv' detected, do you want to start the installation process? [y/n]: " confirm
     [[ "$confirm" == [yY]* ]] || exit 0
@@ -15,4 +13,4 @@ if [ ! -d ".venv" ]; then
 fi
 
 source .venv/bin/activate
-python3 -m src.client
+python3 -m src.client "$@"
