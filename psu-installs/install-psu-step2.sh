@@ -3,14 +3,15 @@ user="$1"
 aida_path="/slrmstore/$user/A.I.D.A"
 pipeout="/tmp/AIDA_INSTALL_PIPE.out"
 
-model_path="/slrmstore/$user/Llama-2-7b-chat-hf"
+#model_path="/slrmstore/$user/Llama-2-7b-chat-hf"
+model_path="/slrmstore/z-common/llama-2-hf-7b"
 
 start_server="$aida_path/psu-installs/start-server.sh"
 
 start_client="$aida_path/psu-installs/start-client.sh"
 
 
-tmux new-session -d -s aida-session "$start_server $aida_path"
+tmux new-session -d -s aida-session "$start_server $aida_path $model_path"
 
 echo "Wait for installations..."
 while ! test -f "/tmp/done"; do
