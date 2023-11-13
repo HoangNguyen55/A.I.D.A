@@ -10,7 +10,7 @@ start_server="$aida_path/psu-installs/start-server.sh"
 start_client="$aida_path/psu-installs/start-client.sh"
 
 
-tmux new-session -d -s aida-session "$start_server $aida_path";             # start a tmux session
+tmux new-session -d -s aida-session "$start_server $aida_path"
 
 echo "Wait for installations..."
 while ! test -f "/tmp/done"; do
@@ -20,6 +20,6 @@ while ! test -f "/tmp/done"; do
 done
 
 rm /tmp/done
-tmux split-window -h;                             # split the detached tmux session
-tmux send "$start_client $aida_path" ENTER;                     # send 2nd command 'htop -t' to 2nd pane. I believe there's a `--target` option to target specific pane.
-tmux a;                                        # open (attach) tmux session.
+tmux split-window -h -t aida-session
+tmux send -t aida-session "$start_client $aida_path" ENTER
+tmux new-session -A -s aida-session
