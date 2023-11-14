@@ -1,0 +1,36 @@
+
+# Command to finetune the llama2 in terminal 
+#using trl script
+run bash Command: srun --nodes=1 --ntasks-per-node=1 --gres=gpu:0 --time=1:00:00 --pty bash
+Command to move to change huggingface transformers default cache directory:
+
+    export HUGGINGFACE_HUB_CACHE="/slrmstore/xbl5229/my_cache/"
+    export TRANSFORMERS_CACHE="/slrmstore/xbl5229/my_cache/"
+    export HF_HOME="/slrmstore/xbl5229/my_cache/"
+    
+run this command:
+python3 /slrmstore/xbl5229/A.I.D.A/src/server/ai/FineTune/trl/examples/scripts/sft.py \
+    --model_name meta-llama/Llama-2-7b-chat-hf \
+    --dataset_name timdettmers/openassistant-guanaco \
+    --load_in_4bit \
+    --use_peft \
+    --batch_size 4 \
+    --gradient_accumulation_steps 2
+
+
+
+# using autotrain
+autotrain llm --train --project_name llama2-finetuned \
+    --model "/slrmstore/xbl5229/llama2_model" \
+    --data_path  "/slrmstore/xbl5229/OpenassisantDataset" \
+    --use_peft \
+    --use_int4 \
+    --learning_rate 2e-8/ \ 
+    --train_batch_size 2 \
+    --num_train_epochs 6 \
+    --trainer sft \
+    --model_max_length 4096 \
+    --push_to_hub \
+    --repo_id xiangliu1123/llama2-openassitant \
+    --block_size 4096 > training.log &
+

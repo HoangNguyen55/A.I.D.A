@@ -3,7 +3,7 @@ from typing import Any
 import logging
 import torch
 from transformers import AutoModelForCausalLM, AutoConfig, AutoTokenizer
-from transformers import pipeline
+
 
 
 
@@ -58,7 +58,7 @@ class _AI:
 
 
 
-input = "what is 1+1 =?"
+input = "what is 2X2=?"
 
 AI = _AI()
 aiPath ="/home/xbl5229/llama-2-chat-hf"
