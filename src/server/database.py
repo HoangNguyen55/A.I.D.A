@@ -91,9 +91,10 @@ class DBAccess:
         UnknownError: If an unexpected error occurs during the insertion process.
         """
         try:
+            id = str(uuid.uuid4())
             self._cursor.execute(
-                "INSERT INTO pending_users (username, password, email) VALUES (?, ?, ?)",
-                (username, password, email),
+                "INSERT INTO pending_users (username, password, email) VALUES (?, ?, ?, ?)",
+                (id, username, password, email),
             )
             self._conn.commit()
         except sqlite3.Error as e:
@@ -123,12 +124,52 @@ class DBAccess:
             logging.error(f"Error adding a new user: {e}")
             raise UnknownError("Something unexpected happened")
 
+    def delete_user(self, uuid:str) -> None:
+        """
+        Delete a user from the "users" database.
+
+        Parameters:
+        - UUID: Unique identifier for said user.
+
+        Raises:
+            UnknownError: If an unexpected error occurs during the deletion process.
+        """
+
+        try:
+            self._cursor.execute(
+                "DELETE FROM users WHERE uuid = ?"
+                , uuid
+            )
+        except sqlite3.Error as e:
+            logging.error(f"Error deleting a user: {e}")
+            raise UnknownError("Something unexpected happened")
+
+    def delete_pending_user(self, uuid:str) -> None:
+        """
+        Delete a user from the "users" database.
+
+        Parameters:
+        - UUID: Unique identifier for said user.
+
+        Raises:
+            UnknownError: If an unexpected error occurs during the deletion process.
+        """
+        try:
+            self._cursor.execute(
+                "DELETE FROM pending_users WHERE uuid = ?"
+                , uuid
+            )
+        except sqlite3.Error as e:
+            logging.error(f"Error deleting a pending user: {e}")
+            raise UnknownError("Something unexpected happened")
+
     def _create_pending_table(self):
         self._cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS pending_users (
+                uuid TEXT PRIMARY KEY,
                 username TEXT,
-                email TEXT PRIMARY KEY,
+                email TEXT,
                 password TEXT
             )
             """
