@@ -28,7 +28,11 @@ class _AI:
         )
         # TODO add some more optins, 4 bits quantizations, etc...
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_path, config=config, local_files_only=True, device_map="auto"
+            model_path,
+            config=config,
+            local_files_only=True,
+            device_map="auto",
+            load_in_4bit=True,
         )
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.started = True
