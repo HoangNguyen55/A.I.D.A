@@ -61,6 +61,7 @@ def handle_connection(websocket: ServerConnection):
         else:
             raise NotImplementedError("Connection type unknown")
     except (json.JSONDecodeError, KeyError, VerificationError, UserDoesNotExist) as err:
+    except (VerificationError, UserDoesNotExist) as err:
         logging.info(f"Connection fail to authenticate: {str(err)}")
         websocket.close(
             CloseCode.INVALID_DATA,
@@ -69,6 +70,9 @@ def handle_connection(websocket: ServerConnection):
     except NotImplementedError as err:
         logging.info(f"Connection fail to authenticate: {str(err)}")
         websocket.close(CloseCode.UNSUPPORTED_DATA, str(err))
+    except (json.JSONDecodeError, KeyError) as err:
+        logging.info(f"Connection fail: {str(err)}")
+        websocket.close(CloseCode.UNSUPPORTED_DATA, "Data recieved are unsupported")
 
 
 def handle_data(websocket: ServerConnection, user_data: UserData):
