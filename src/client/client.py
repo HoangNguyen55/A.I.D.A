@@ -1,51 +1,64 @@
-from asyncio import sleep
+from threading import Thread
+from websockets.sync.connection import Connection
+from websockets.sync.client import connect
+from .datatype import Credentials, ConnectionType, PayLoad, PayLoadIntent
+from time import sleep
+from queue import Queue
+import websockets
 import getpass
-from websockets import WebSocketClientProtocol, client
-import websockets.exceptions
 
-from .datatype import Credentials, ConnectionType
+user_input = Queue(1)
 
 
-async def start_client(uri: str):
+def start_client(uri: str):
     sleep_time = 1
     while True:
         try:
-            async with client.connect(uri) as websocket:
-                action = getUserAction()
-                try:
-                    if action == ConnectionType.SIGNUP:
-                        await signup(websocket)
-                    elif action == ConnectionType.LOGIN:
-                        await login(websocket)
+            action = getUserAction()
+            with connect(uri) as websocket:
+                while True:
+                    try:
+                        if action == ConnectionType.SIGNUP:
+                            signup(websocket)
+                            action = None
+                        elif action == ConnectionType.LOGIN:
+                            login(websocket)
+                            action = None
 
-                    prompt = input("Enter your prompt: ")
-                    await websocket.send(prompt)
+                        thread = Thread(
+                            target=getUserInput,
+                            args=("Enter your prompt: ",),
+                            daemon=True,
+                        )
+                        thread.start()
+                        websocket.send(user_input.get())
 
-                    response = await websocket.recv()
-                    print("AIDA:", response)
-                except websockets.exceptions.ConnectionClosed as err:
-                    print()
-                    print(err)
-                    continue
-                except KeyboardInterrupt:
-                    await websocket.close()
-                    break
+                        for msg in websocket.recv_streaming():
+                            print(msg, end=" ")
+                        print()
+                    except websockets.exceptions.ConnectionClosed as err:
+                        print()
+                        print(err)
+                    except KeyboardInterrupt:
+                        websocket.close()
+                        break
+            break
         except ConnectionRefusedError:
             print("Server not started or connection error, trying to reconnect...")
-            await sleep(sleep_time)
+            sleep(sleep_time)
             sleep_time = sleep_time if sleep_time >= 60 else sleep_time * 2
 
 
-async def login(websocket: WebSocketClientProtocol):
+def login(websocket: Connection):
     email = input("Email: ")
     password = getpass.getpass()
     payload = Credentials(ConnectionType.LOGIN, "", password, email)
-    await websocket.send(str(payload))
+    websocket.send(str(payload))
     # server should send something back for confirming authenication
-    print(await websocket.recv())
+    print(websocket.recv())
 
 
-async def signup(websocket: WebSocketClientProtocol):
+def signup(websocket: Connection):
     username = input("Username: ")
 
     password = getpass.getpass()
@@ -57,9 +70,14 @@ async def signup(websocket: WebSocketClientProtocol):
 
     email = input("Email: ")
     payload = Credentials(ConnectionType.SIGNUP, username, password, email)
-    await websocket.send(str(payload))
+    websocket.send(str(payload))
     # connection should terminate
-    await websocket.recv()
+    websocket.recv()
+
+
+def getUserInput(prompt: str):
+    prompt = input("Enter your prompt: ")
+    user_input.put(str(PayLoad(PayLoadIntent.CHAT, prompt)))
 
 
 def getUserAction():

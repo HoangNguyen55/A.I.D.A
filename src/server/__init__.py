@@ -10,7 +10,6 @@ def main(args=None):
     )
     import configargparse
     import logging
-    import asyncio
     import pathlib
     import os
 
