@@ -7,7 +7,7 @@ from websockets.sync.server import serve, ServerConnection
 from .ai import AI
 from .database import DBAccess
 from .error import UserDoesNotExist
-from .datatype import ConnectionType, Credentials, UserData
+from .datatype import ConnectionType, Credentials, PayLoad, PayLoadIntent, UserData
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError
 
@@ -60,7 +60,6 @@ def handle_connection(websocket: ServerConnection):
                 )
         else:
             raise NotImplementedError("Connection type unknown")
-    except (json.JSONDecodeError, KeyError, VerificationError, UserDoesNotExist) as err:
     except (VerificationError, UserDoesNotExist) as err:
         logging.info(f"Connection fail to authenticate: {str(err)}")
         websocket.close(
@@ -78,10 +77,13 @@ def handle_connection(websocket: ServerConnection):
 def handle_data(websocket: ServerConnection, user_data: UserData):
     websocket.send(f"Good morning: {user_data.username}")
     for message in websocket:
-        msg = check_data(message)
-        logging.debug(f"Message from {user_data.username} recieved: {msg}")
+        payload = PayLoad(check_data(message))
+        if payload.intent == PayLoadIntent.UPDATE_USER_DATA:
+            # TODO update user data
+            continue
+        logging.debug(f"Message from {user_data.username} recieved: {payload}")
         # TODO, build the prompt from the previous prompt
-        response = AI.feed_input(msg, user_data.system_prompt)
+        response = AI.feed_input(payload.message, user_data.system_prompt)
         websocket.send(response)
 
 
