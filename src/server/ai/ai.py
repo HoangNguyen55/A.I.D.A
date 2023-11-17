@@ -59,7 +59,15 @@ class _AI:
     def _inference_loop(self):
         # this loop is to be run in another thread
         while self._started:
-            return_id, prompt = self._input_queue.get()
+            return_id, user_input = self._input_queue.get()
+            prompt = f"""
+            <s>[INST] <<SYS>>
+            You are a nice assistant that will answer questions correctly
+            <</SYS>>
+            
+            {user_input} [/INST]
+            """
+
             input = self._tokenizer(prompt, return_tensors="pt").to("cuda:0")
             streamer = TextIteratorStreamer(self._tokenizer, skip_prompt=True)
             decode_kwargs = dict(input, streamer=streamer, skip_special_tokens=True)
