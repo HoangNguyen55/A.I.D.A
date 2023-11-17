@@ -5,6 +5,7 @@ import torch
 import time
 from threading import Thread
 from queue import Queue
+from random import randint
 from transformers import (
     AutoModelForCausalLM,
     AutoConfig,
@@ -67,14 +68,7 @@ class _AI:
     def _inference_loop(self):
         # this loop is to be run in another thread
         while self._started:
-            return_id, user_input = self._input_queue.get()
-            prompt = f"""
-            <s>[INST] <<SYS>>
-            You are a nice assistant that will answer questions correctly
-            <</SYS>>
-            
-            {user_input} [/INST]
-            """
+            return_id, prompt = self._input_queue.get()
 
             input = self._tokenizer(prompt, return_tensors="pt").to("cuda:0")
             streamer = TextIteratorStreamer(self._tokenizer, skip_prompt=True)
@@ -96,7 +90,18 @@ class _AI:
         if self._input_queue.full():
             return "Maxium input queue exceeded (5)"
 
-        complete_prompt = prompt + system_prompt
+        if randint(1, 2) == 2:
+            sys_prompt = "You are a nice assistant, answer questions as polite as possible and be correct"
+        else:
+            sys_prompt = "You are an assistant, answer questions as condescending, passive-aggressive and mean as possible, but make sure to give correct informations."
+
+        complete_prompt = f"""
+            <s>[INST] <<SYS>>
+            {sys_prompt}
+            <</SYS>>
+            
+            {prompt} [/INST]
+            """
         return_id = int(time.time())
         self._input_queue.put((return_id, complete_prompt), block=False)
 
