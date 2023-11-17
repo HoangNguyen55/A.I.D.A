@@ -31,7 +31,6 @@ class _AI:
             return
 
         quantize_config = BitsAndBytesConfig(
-            load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
             bnb_4bit_use_double_quant=True,
             bnb_4bit_compute_dtype=torch.bfloat16,
@@ -49,7 +48,7 @@ class _AI:
         self._model = AutoModelForCausalLM.from_pretrained(
             model_path,
             config=config,
-            quantization_config=quantize_config,
+            load_in_4bit=True,
             local_files_only=True,
             device_map="auto",
         )
