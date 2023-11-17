@@ -5,20 +5,41 @@
 
 2. Make sure you have [SSH installed](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui).
 
+OR 
+
+1. Use the school pc.
+
 ### STEP 1:
-Open up a terminal (CTRL + Backtick (`) on vscode) or powershell.
+Open up a terminal (CTRL + Backtick (`) on vscode) 
+
+OR
+
+**Command Prompt** on windows. powershell will not work
 
 ### STEP 2:
+#### ON WINDOWS COMMAND PROMPT
+Copy and paste this command.
+
+Replace `**USER**` with your psu email without the @ (`xyz123` instead of `xyz123@psu.edu`)
+
+`ssh -t "**USER**@172.28.200.30" "/usr/bin/bash -c \"$(curl https://raw.githubusercontent.com/HoangNguyen55/A.I.D.A/main/psu-installs/install-psu-step1.sh)\""`
+
+
+Your complete comand should look like this
+
+`ssh -t "xyz1234@172.28.200.30" "/usr/bin/bash -c \"$(curl https://raw.githubusercontent.com/HoangNguyen55/A.I.D.A/main/psu-installs/install-psu-step1.sh)\""`
+
+#### ON TERMINAL ON LINUX
 Copy and paste this command.
 
 Replace `**USER**` with your psu email without the @ (`xyz123` instead of `xyz123@psu.edu`)
 
 `ssh -t "**USER**@172.28.200.30" '/usr/bin/bash -c "$(curl https://raw.githubusercontent.com/HoangNguyen55/A.I.D.A/main/psu-installs/install-psu-step1.sh)"'`
 
-
 Your complete comand should look like this
 
-`ssh -t "xyz123@172.28.200.30" '/usr/bin/bash -c "$(curl https://raw.githubusercontent.com/HoangNguyen55/A.I.D.A/main/psu-installs/install-psu-step1.sh)"'`
+`ssh -t "**USER**@172.28.200.30" '/usr/bin/bash -c "$(curl https://raw.githubusercontent.com/HoangNguyen55/A.I.D.A/main/psu-installs/install-psu-step1.sh)"'`
+
 
 ### STEP 3:
 Press enter, say yes and put in your psu email password
