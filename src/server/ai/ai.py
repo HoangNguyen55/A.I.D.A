@@ -70,7 +70,7 @@ class _AI:
 
             input = self._tokenizer(prompt, return_tensors="pt").to("cuda:0")
             streamer = TextIteratorStreamer(self._tokenizer, skip_prompt=True)
-            decode_kwargs = dict(input, streamer=streamer, skip_special_tokens=True)
+            decode_kwargs = dict(input, streamer=streamer)
             thread = Thread(
                 target=self._model.generate, kwargs=decode_kwargs, daemon=True
             )
