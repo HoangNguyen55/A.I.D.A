@@ -14,7 +14,7 @@ class DBAccess:
         self._cursor: sqlite3.Cursor
 
         try:
-            self._conn = sqlite3.connect(self.path)
+            self._conn = sqlite3.connect(self.path, check_same_thread=False)
             self._cursor = self._conn.cursor()
             self._create_user_table()
             self._create_pending_table()
@@ -40,7 +40,6 @@ class DBAccess:
                 f"SELECT uuid, password FROM users WHERE email = ?", (email,)
             )
             data = self._cursor.fetchall()[0]
-            logging.debug(data)
             if data:
                 return (data[0], data[1])
         except sqlite3.Error as e:

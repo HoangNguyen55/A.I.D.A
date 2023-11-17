@@ -4,7 +4,6 @@ from .client import start_client
 def main(args=None):
     import argparse
     import logging
-    import asyncio
 
     parser = argparse.ArgumentParser(
         prog=__name__,
@@ -25,7 +24,7 @@ def main(args=None):
 
     logging.basicConfig(level=log_level)
     uri = f"ws://{options.address}:{options.port}"
-    asyncio.get_event_loop().run_until_complete(start_client(uri))
+    start_client(uri)
 
 
 if __name__ == "__main__":

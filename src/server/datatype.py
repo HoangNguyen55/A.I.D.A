@@ -8,6 +8,11 @@ class ConnectionType(str, enum.Enum):
     SIGNUP = "signup"
 
 
+class PayLoadIntent(str, enum.Enum):
+    UPDATE_USER_DATA = "update"
+    CHAT = "chat"
+
+
 @dataclass
 class Credentials:
     connection_type: ConnectionType
@@ -27,3 +32,14 @@ class Credentials:
 class UserData:
     username: str
     system_prompt: str
+
+
+@dataclass
+class PayLoad:
+    intent: PayLoadIntent
+    message: str
+
+    def __init__(self, data: str) -> None:
+        data_json: dict = json.loads(data)
+        self.intent = data_json["intent"]
+        self.message = data_json["message"]
