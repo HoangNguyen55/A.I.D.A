@@ -1,4 +1,5 @@
 from threading import Thread
+from websockets.frames import Close, CloseCode
 from websockets.sync.connection import Connection
 from websockets.sync.client import connect
 from .datatype import Credentials, ConnectionType, PayLoad, PayLoadIntent
@@ -19,11 +20,10 @@ def start_client(uri: str):
                 while True:
                     try:
                         if action == ConnectionType.SIGNUP:
-                            action = ConnectionType.LOGIN
                             signup(websocket)
                         elif action == ConnectionType.LOGIN:
-                            action = None
                             login(websocket)
+                            action = None
 
                         thread = Thread(
                             target=getUserInput,
@@ -39,10 +39,14 @@ def start_client(uri: str):
                     except websockets.exceptions.ConnectionClosed as err:
                         print()
                         print(err)
+                        if err.rcvd and (
+                            err.rcvd.code == CloseCode.INVALID_DATA
+                            or err.rcvd.code == CloseCode.TRY_AGAIN_LATER
+                        ):
+                            break
                     except KeyboardInterrupt:
                         websocket.close()
                         break
-            break
         except ConnectionRefusedError:
             print("Server not started or connection error, trying to reconnect...")
             sleep(sleep_time)
