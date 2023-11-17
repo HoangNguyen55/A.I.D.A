@@ -19,11 +19,11 @@ def start_client(uri: str):
                 while True:
                     try:
                         if action == ConnectionType.SIGNUP:
+                            action = ConnectionType.LOGIN
                             signup(websocket)
-                            action = None
                         elif action == ConnectionType.LOGIN:
-                            login(websocket)
                             action = None
+                            login(websocket)
 
                         thread = Thread(
                             target=getUserInput,
