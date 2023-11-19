@@ -1,7 +1,7 @@
 use reqwest::blocking::Client;
 use scraper::{Html, Selector};
 //use std::fs::File;
-use std::io::{stdin,stdout,Write};
+//use std::io::{stdin,stdout,Write};
 use clap::Parser;
 
 
@@ -48,7 +48,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
 //
     let client = Client::new();
     //let query = "warframe+guide";
-    let query = args.s.replace(" ", "+");
+    let query = args.s.replace("_", "+");
     println!("Query Dump into program: {}", query);
     let url = format!("https:www.google.com/search?q={}" , query);
     let res = client.get(&url).header(reqwest::header::USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36").send()?;
@@ -60,6 +60,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
     let ui_friendly_query_print = query.replace("+", " ");
     println!("Showing Results For: {}", ui_friendly_query_print);
     println!("\n");
+    let mut resarray = Vec::new();
     let mut resultcount = 0;
     for element in fragment.select(&selector) {
         if resultcount < 5 {
@@ -82,11 +83,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
             println!("Snippet: {}", snippet_element);
         
             println!("\n");
+            resarray.push(link.to_string());
             resultcount += 1;
         }
         else{
             break;
         }
+    }
+    for x in &resarray{
+        println!("Link Path: {:?}", x);
     }
 
     ////USE THIS TO DEBUG HTML QUERY RESULT
