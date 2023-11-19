@@ -34,11 +34,11 @@ def start_client(uri: str):
                         websocket.send(user_input.get())
 
                         for msg in websocket.recv_streaming():
-                            print(msg, end=" ")
+                            print(msg, end="")
                         print()
                     except websockets.exceptions.ConnectionClosed as err:
                         print()
-                        print(err)
+                        print(err.rcvd)
                         if err.rcvd and (
                             err.rcvd.code == CloseCode.INVALID_DATA
                             or err.rcvd.code == CloseCode.TRY_AGAIN_LATER
