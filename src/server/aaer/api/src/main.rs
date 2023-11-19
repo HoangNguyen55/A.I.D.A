@@ -47,7 +47,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
     //}
 //
     let client = Client::new();
-    //let query = "warframe+guide";
     let query = args.s.replace("_", "+");
     println!("Query Dump into program: {}", query);
     let url = format!("https:www.google.com/search?q={}" , query);
@@ -90,9 +89,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
             break;
         }
     }
+    resultcount = 1;
+    println!("Select a Link Path:");
     for x in &resarray{
-        println!("Link Path: {:?}", x);
+        println!("({resultcount}). {:?}", x);
+        resultcount += 1;
     }
+
+    //USER SELCTION LOGIC HERE: (selection needs to consider input value-1 for correct index)
+
 
     ////USE THIS TO DEBUG HTML QUERY RESULT
     //let mut file = File::create("debugoutput.html")?;
