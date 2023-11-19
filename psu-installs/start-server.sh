@@ -12,6 +12,6 @@ source .venv/bin/activate
 echo "Installing dependencies using pip"
 pip install -r requirements.txt > "$pipeout.out"
 touch "/tmp/done"
-rm "$pipeout.out" "$pipeout.in"
+rm "$pipeout.out"
 
-python3 -m src.server -m "$model_path" --auto-approve-signup --inference-on-startup -v
+TRANSFORMERS_CACHE="$(pwd)" python3 -m src.server -m "$model_path" --auto-approve-signup --inference-on-startup -v

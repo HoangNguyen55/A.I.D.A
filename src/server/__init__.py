@@ -10,7 +10,6 @@ def main(args=None):
     )
     import configargparse
     import logging
-    import asyncio
     import pathlib
     import os
 
@@ -102,7 +101,7 @@ def main(args=None):
     if options.inference_on_startup:
         AI.start(options.model_path)
 
-    asyncio.run(start_server(options))
+    start_server(options)
 
 
 if __name__ == "__main__":

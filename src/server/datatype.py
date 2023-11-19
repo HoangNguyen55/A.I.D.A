@@ -3,9 +3,14 @@ import enum
 import json
 
 
-class ConnectionType(enum.IntEnum):
-    LOGIN = 0
-    SIGNUP = 1
+class ConnectionType(str, enum.Enum):
+    LOGIN = "login"
+    SIGNUP = "signup"
+
+
+class PayLoadIntent(str, enum.Enum):
+    UPDATE_USER_DATA = "update"
+    CHAT = "chat"
 
 
 @dataclass
@@ -27,3 +32,14 @@ class Credentials:
 class UserData:
     username: str
     system_prompt: str
+
+
+@dataclass
+class PayLoad:
+    intent: PayLoadIntent
+    message: str
+
+    def __init__(self, data: str) -> None:
+        data_json: dict = json.loads(data)
+        self.intent = data_json["intent"]
+        self.message = data_json["message"]
